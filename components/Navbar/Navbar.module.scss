@@ -1,0 +1,10 @@
+@import "../../styles/common/utils.scss";
+
+.Navbar {
+    background-color: $navbar;
+    padding: 2rem;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}

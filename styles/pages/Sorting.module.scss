@@ -1,0 +1,70 @@
+@import "../common/utils.scss";
+
+// AlgoBtn
+
+.algoBtnContainer {
+    padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.algoBtn {
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out;
+    border: 2px solid $hover;
+    background-color: inherit;
+    color: inherit;
+    font: inherit;
+
+    &:hover {
+        transform: scale(1.05);
+        background-color: $hover;
+    }
+}
+
+// Canvas
+
+#canvasMain {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1em;
+
+    @include md {
+        flex-direction: row-reverse;
+        // background-color: red;
+    }
+}
+
+#canvasContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+}
+
+.controlsContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 1em 2em;
+    max-width: 400px;
+    // flex-grow: 1;
+    width: 100%;
+}
+
+.slidersContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    & input[type="range"] {
+        width: 100%;
+    }
+}
