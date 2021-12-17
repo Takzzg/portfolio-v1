@@ -1,31 +1,5 @@
 @import "../common/utils.scss";
 
-// AlgoBtn
-
-.algoBtnContainer {
-    padding: 1rem;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-}
-
-.algoBtn {
-    padding: 0.5rem;
-    cursor: pointer;
-    transition: transform 0.1s ease-in-out;
-    border: 2px solid $hover;
-    background-color: inherit;
-    color: inherit;
-    font: inherit;
-
-    &:hover {
-        transform: scale(1.05);
-        background-color: $hover;
-    }
-}
-
 // Canvas
 
 #canvasMain {
@@ -37,7 +11,6 @@
 
     @include md {
         flex-direction: row-reverse;
-        // background-color: red;
     }
 }
 
@@ -50,21 +23,37 @@
     max-width: 600px;
 }
 
+// Controls
+
 .controlsContainer {
     display: flex;
     flex-direction: column;
+    gap: 1rem;
     padding: 1em 2em;
     max-width: 400px;
-    // flex-grow: 1;
     width: 100%;
-}
 
-.slidersContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    & input[type="range"] {
+    & > * {
+        display: flex;
         width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .slidersContainer {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .algoSelect {
+        background-color: $hover;
+        color: $textPrimary;
+        border: none;
+        border-radius: 0.25rem;
+        padding: 0.5rem;
+    }
+
+    .actionsContainer {
+        gap: 1rem;
     }
 }

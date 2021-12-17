@@ -1,54 +1,31 @@
 import { useEffect, useState } from "react"
 import Head from "next/head"
 
-import styles from "../styles/pages/Sorting.module.scss"
-
 import * as CanvasScript from "../scripts/canvas/canvas"
-
 import Algorithms from "../scripts/sorting/index"
+import { AlgorithmsRefs } from "../scripts/sorting/algoRefs"
 
-interface AlgoProps {
-    text: string
-    name: string
-}
+import {
+    FaCheck,
+    FaPlay,
+    FaRandom,
+    FaSignal,
+    FaStepForward,
+    FaStop
+} from "react-icons/fa"
+
+import styles from "../styles/pages/Sorting.module.scss"
+import Slider from "../components/Slider/Slider"
+import Title from "../components/Title/Title"
+import Button from "../components/Button/Button"
 
 const Sorting = () => {
-    const [itemCount, setItemCount] = useState<number>(100)
-    const [maxHeight, setMaxHeight] = useState<number>(50)
-    const [algo, setAlgo] = useState<AlgoProps>({
-        text: "Bubble Sort",
-        name: "bubble"
-    })
+    const [itemCount, setItemCount] = useState<number>(20)
+    const [maxHeight, setMaxHeight] = useState<number>(100)
+    const [animSpeed, setAnimSpeed] = useState<number>(100)
 
-    const AlgoBtn = ({ text, name }: AlgoProps) => (
-        <input
-            className={styles.algoBtn}
-            type="button"
-            value={text}
-            onClick={() => setAlgo({ text, name })}
-        />
-    )
-
-    const runAlgo = (fn: string) => {
-        const script = Algorithms[algo.name]
-        script
-            ? CanvasScript.run(script[fn])
-            : alert(`${algo.name} not implemented`)
-    }
-
-    const stepAlgo = () => {
-        const script = Algorithms[algo.name]
-        script
-            ? CanvasScript.run(script.step)
-            : alert(`${algo.name} not implemented`)
-    }
-
-    const animate = () => {
-        const script = Algorithms[algo.name]
-        script
-            ? CanvasScript.animate(script.step)
-            : alert(`${algo.name} not implemented`)
-    }
+    const [animPalying, setAnimPlaying] = useState(false)
+    const [algoName, setAlgoName] = useState<string>("bubble")
 
     useEffect(() => {
         CanvasScript.initCanvas(itemCount, maxHeight)
@@ -56,15 +33,50 @@ const Sorting = () => {
     }, [])
 
     useEffect(() => {
+        stopAnimation()
         CanvasScript.updateValues(itemCount, maxHeight)
-    }, [itemCount, maxHeight])
+    }, [itemCount, maxHeight, animSpeed])
 
-    const resetSliders = () => {
-        setItemCount(100)
-        setMaxHeight(50)
-
-        CanvasScript.resetArray()
+    const stopAnimation = () => {
+        setAnimPlaying(false)
+        CanvasScript.stopAnimation()
     }
+
+    const runAlgo = (fn: string) => {
+        stopAnimation()
+        const script = Algorithms[algoName]
+        CanvasScript.run(script[fn])
+    }
+
+    const animate = () => {
+        if (animSpeed === 0) runAlgo("sort")
+        else {
+            setAnimPlaying(true)
+            const script = Algorithms[algoName]
+            CanvasScript.animate(script.step, animSpeed)
+        }
+    }
+
+    const AlgorithmSelect = () => (
+        <div>
+            Sort using:&nbsp;
+            <select
+                className={styles.algoSelect}
+                name="algorithms"
+                id="algorithms"
+                value={algoName}
+                onChange={(event) => setAlgoName(event.target.value)}
+            >
+                {AlgorithmsRefs.map((algo) => (
+                    <option key={algo.value} value={algo.value}>
+                        {`${
+                            algo.value[0].toUpperCase() + algo.value.slice(1)
+                        } Sort`}
+                    </option>
+                ))}
+            </select>
+        </div>
+    )
 
     return (
         <>
@@ -73,77 +85,89 @@ const Sorting = () => {
             </Head>
 
             <div className={styles.mainContainer}>
-                <div>Sorting Algorithms Visualization</div>
-                <div className={styles.algoBtnContainer}>
-                    <AlgoBtn text={"Bubble Sort"} name="bubble" />
-                    <AlgoBtn text={"Selection Sort"} name="selection" />
-                    <AlgoBtn text={"Insertion Sort"} name="" />
-                    <AlgoBtn text={"Quick Sort"} name="" />
-                    <AlgoBtn text={"Merge Sort"} name="" />
-                    <AlgoBtn text={"Bucket Sort"} name="" />
-                    <AlgoBtn text={"Shell Sort"} name="" />
-                    <AlgoBtn text={"Heap Sort"} name="" />
-                </div>
+                <Title title="Sorting Algorithms Visualization" />
+
                 <div id={styles.canvasMain}>
                     <div id={styles.canvasContainer}>
                         <canvas id="sortingCanvas" />
                     </div>
                     <div className={styles.controlsContainer}>
-                        <div>Selected Algorithm: {algo.text}</div>
                         <div className={styles.slidersContainer}>
-                            <div>item count</div>
-                            <input
-                                type="range"
-                                min="10"
-                                max="200"
+                            <Slider
+                                label={"Item Count"}
+                                min={10}
+                                max={200}
+                                step={5}
                                 value={itemCount}
-                                onChange={(event) => {
-                                    setItemCount(parseInt(event.target.value))
+                                onChange={setItemCount}
+                                onReset={() => {
+                                    setItemCount(20)
                                     CanvasScript.resetArray()
                                 }}
                             />
-                            <div>max height</div>
-                            <input
-                                type="range"
-                                min="5"
-                                max="100"
+                            <Slider
+                                label={"Max Height"}
+                                symbol="%"
+                                min={10}
+                                max={100}
+                                step={5}
                                 value={maxHeight}
-                                onChange={(event) => {
-                                    setMaxHeight(parseInt(event.target.value))
+                                onChange={setMaxHeight}
+                                onReset={() => {
+                                    setMaxHeight(100)
                                     CanvasScript.resetArray()
                                 }}
                             />
-                            <input
-                                type="button"
-                                value="Reset Sliders"
-                                onClick={resetSliders}
+                            <Slider
+                                label={"Animation Speed"}
+                                symbol="ms"
+                                min={0}
+                                max={300}
+                                step={10}
+                                value={animSpeed}
+                                onChange={setAnimSpeed}
+                                onReset={() => setAnimSpeed(100)}
                             />
                         </div>
+
+                        <AlgorithmSelect />
+
                         <div className={styles.actionsContainer}>
-                            <input
-                                type="button"
-                                value="Stop"
-                                onClick={() => CanvasScript.stopAnimation()}
-                            />
-                            <input
-                                type="button"
-                                value="Step"
-                                onClick={stepAlgo}
-                            />
-                            <input
-                                type="button"
-                                value="Run"
+                            <Button
+                                value="Sort"
+                                icon={<FaSignal />}
                                 onClick={() => runAlgo("sort")}
+                                bg="blue"
                             />
-                            <input
-                                type="button"
-                                value="Animate"
-                                onClick={() => animate()}
+                            <Button
+                                value="Step"
+                                icon={<FaStepForward />}
+                                onClick={() => runAlgo("step")}
+                                bg="royalblue"
                             />
-                            <input
-                                type="button"
+                            {animPalying ? (
+                                <Button
+                                    value="Stop"
+                                    icon={<FaStop />}
+                                    onClick={() => stopAnimation()}
+                                    bg="red"
+                                />
+                            ) : (
+                                <Button
+                                    value="Start"
+                                    icon={<FaPlay />}
+                                    onClick={() => animate()}
+                                    bg="green"
+                                />
+                            )}
+                            <Button
                                 value="Shuffle"
-                                onClick={() => CanvasScript.resetArray()}
+                                icon={<FaRandom />}
+                                onClick={() => {
+                                    stopAnimation()
+                                    CanvasScript.resetArray()
+                                }}
+                                bg="orangered"
                             />
                         </div>
                     </div>
