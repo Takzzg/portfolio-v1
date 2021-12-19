@@ -10,7 +10,7 @@ This is a personal web portfolio I've developed in my free time to host my side 
 
 ## Ant Colony & Conway's Game of Life
 
-this sections will host an interactive canvas in wich you can play around with these two famous simulations
+This sections will host an interactive canvas in wich you can play around with these two famous simulations
 
 -   [Ant colony Optimization](https://en.wikipedia.org/wiki/Ant_colony_optimization_algorithms) (also known as ACO) is a Swarm Intelligence technique inspired by the ability of real ant colonies to efficiently organize the foraging behavior of the colony using chemical pheromone trails as a means of communication between the ants, in order to find the optimal path from the nest to the food source, and back.
 
@@ -18,7 +18,7 @@ this sections will host an interactive canvas in wich you can play around with t
 
 ## Pathfinding Algorithms Visualization
 
-this section will host an interactive canvas in wich you'll be able to place and move the start position, end position, checkpoints and obstacles around in a grid, to then be solved by one of the following pathfinding algorithms:
+This section will host an interactive canvas in wich you'll be able to place and move the start position, end position, checkpoints and obstacles around in a grid, to then be solved by one of the following pathfinding algorithms:
 
 -   [Breadth-first search](https://en.wikipedia.org/wiki/Breadth-first_search)
 -   [Depth-first search](https://en.wikipedia.org/wiki/Depth-first_search)
@@ -27,7 +27,7 @@ this section will host an interactive canvas in wich you'll be able to place and
 
 ## Sorting Algorithms Visualization
 
-this section will host a non-interactive canvas wich will display an adjustable array of bars to then be sorted by one of the following algorithms:
+This section will host a non-interactive canvas wich will display an adjustable array of bars to then be sorted by one of the following algorithms:
 
 -   [Bubble Sort](https://en.wikipedia.org/wiki/Bubble_sort)
 -   [Selection Sort](https://en.wikipedia.org/wiki/Selection_sort)[^1]
@@ -63,7 +63,7 @@ npm run dev
 yarn dev
 ```
 
-Lastly, Open [http://localhost:3000](http://localhost:3000) on your browser to see the result.
+Lastly, open [http://localhost:3000](http://localhost:3000) on your browser to see the result.
 
-[^1]: not implemented yet
-[^2]: Work in progress / partially implemented
+[^1]: Not implemented yet
+[^2]: Work in progress / Partially implemented
