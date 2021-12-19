@@ -1,18 +1,17 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Head from "next/head"
 
-import * as CanvasScript from "../scripts/canvas/canvas"
-import Algorithms from "../scripts/sorting/index"
-import { AlgorithmsRefs } from "../scripts/sorting/algoRefs"
-
 import {
-    FaCheck,
     FaPlay,
     FaRandom,
     FaSignal,
     FaStepForward,
     FaStop
 } from "react-icons/fa"
+
+import * as CanvasScript from "../scripts/canvas/canvas"
+import Algorithms from "../scripts/sorting/index"
+import { AlgorithmsRefs } from "../scripts/sorting/algoRefs"
 
 import styles from "../styles/pages/Sorting.module.scss"
 import Slider from "../components/Slider/Slider"
@@ -24,7 +23,8 @@ const Sorting = () => {
     const [maxHeight, setMaxHeight] = useState<number>(100)
     const [animSpeed, setAnimSpeed] = useState<number>(100)
 
-    const [animPalying, setAnimPlaying] = useState(false)
+    const [animPalying, setAnimPlaying] = useState<boolean>(false)
+    const animation = useRef<NodeJS.Timer | null>(null)
     const [algoName, setAlgoName] = useState<string>("bubble")
 
     useEffect(() => {
@@ -35,11 +35,18 @@ const Sorting = () => {
     useEffect(() => {
         stopAnimation()
         CanvasScript.updateValues(itemCount, maxHeight)
-    }, [itemCount, maxHeight, animSpeed])
+    }, [itemCount, maxHeight])
+
+    useEffect(() => {
+        if (animPalying) {
+            stopAnimation()
+            animate()
+        }
+    }, [animSpeed])
 
     const stopAnimation = () => {
         setAnimPlaying(false)
-        CanvasScript.stopAnimation()
+        animation.current && clearInterval(animation.current)
     }
 
     const runAlgo = (fn: string) => {
@@ -50,10 +57,14 @@ const Sorting = () => {
 
     const animate = () => {
         if (animSpeed === 0) runAlgo("sort")
+        else if (CanvasScript.checkSolved()) alert("done")
         else {
             setAnimPlaying(true)
             const script = Algorithms[algoName]
-            CanvasScript.animate(script.step, animSpeed)
+            animation.current = setInterval(() => {
+                if (!CanvasScript.checkSolved()) CanvasScript.run(script.step)
+                else stopAnimation()
+            }, animSpeed)
         }
     }
 

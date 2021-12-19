@@ -9,9 +9,7 @@ let array: number[]
 let maxHeight: number
 let itemCount: number
 
-let animation: NodeJS.Timeout | undefined = undefined
-
-const checkSolved = () => {
+export const checkSolved = () => {
     let solved = true
     for (let i = 0; i < array.length - 1; i++)
         if (array[i] > array[i + 1]) {
@@ -37,7 +35,6 @@ export const resetArray = (draw = true) => {
     array = []
     for (let i = 0; i < itemCount; i++)
         array[i] = Math.random() * maxHeight + 0.5
-    stopAnimation()
     if (draw) drawBars()
 }
 
@@ -72,36 +69,15 @@ const drawBars = () => {
         let h = Math.ceil(-((canvas.height - padding * 2) * (array[i] / 100)))
         let hsl = 255 * (array[i] / maxHeight)
 
-        ctx.fillStyle = "hsl(" + hsl + ",100%,50%)"
+        ctx.fillStyle = "hsl(" + hsl + ",80%,50%)"
         ctx.fillRect(x, y, w, h)
     }
 }
 
 export const run = (algoMethod: Function) => {
-    stopAnimation()
     if (checkSolved()) alert("done")
     else {
         algoMethod(array)
         drawBars()
     }
-}
-
-export const animate = (algoMethod: Function, animSpeed: number) => {
-    if (animation !== undefined) stopAnimation()
-    else {
-        if (checkSolved()) alert("done")
-        else {
-            animation = setInterval(() => {
-                if (!checkSolved()) {
-                    array = algoMethod(array)
-                    drawBars()
-                }
-            }, animSpeed)
-        }
-    }
-}
-
-export const stopAnimation = () => {
-    animation && clearInterval(animation)
-    animation = undefined
 }
