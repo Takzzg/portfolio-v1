@@ -53,19 +53,24 @@ const Sorting = () => {
     const runAlgo = (fn: string) => {
         stopAnimation()
         const script = Algorithms[algoName]
-        CanvasScript.run(script[fn])
+        if (script === undefined) alert("not implemented yet")
+        else CanvasScript.run(script[fn])
     }
 
     const animate = () => {
         if (animSpeed === 0) runAlgo("sort")
         else if (CanvasScript.checkSolved()) alert("done")
         else {
-            setAnimPlaying(true)
             const script = Algorithms[algoName]
-            animation.current = setInterval(() => {
-                if (!CanvasScript.checkSolved()) CanvasScript.run(script.step)
-                else stopAnimation()
-            }, animSpeed)
+            if (script === undefined) alert("not implemented yet")
+            else {
+                setAnimPlaying(true)
+                animation.current = setInterval(() => {
+                    if (!CanvasScript.checkSolved())
+                        CanvasScript.run(script.step)
+                    else stopAnimation()
+                }, animSpeed)
+            }
         }
     }
 
@@ -159,7 +164,10 @@ const Sorting = () => {
                                 span={3}
                                 value="Reset"
                                 icon={<FaUndo />}
-                                onClick={() => CanvasScript.resetArray()}
+                                onClick={() => {
+                                    stopAnimation()
+                                    CanvasScript.resetArray()
+                                }}
                                 bg="red"
                             />
                             <Button

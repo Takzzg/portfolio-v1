@@ -60,8 +60,6 @@ const clearCanvas = () => {
 
 const drawBars = () => {
     clearCanvas()
-    console.log(`array: ${array} \n lastRandomArray: ${lastRandomArray}`)
-
     const padding = 50
 
     for (let i = 0; i < array.length; i++) {
