@@ -146,39 +146,7 @@ const Sorting = () => {
 
                         <div className={styles.actionsContainer}>
                             <Button
-                                value="Reset"
-                                icon={<FaUndo />}
-                                onClick={() => CanvasScript.resetArray()}
-                                bg="red"
-                            />
-                            <Button
-                                value="Sort"
-                                icon={<FaSignal />}
-                                onClick={() => runAlgo("sort")}
-                                bg="blue"
-                            />
-                            <Button
-                                value="Step"
-                                icon={<FaStepForward />}
-                                onClick={() => runAlgo("step")}
-                                bg="royalblue"
-                            />
-                            {animPalying ? (
-                                <Button
-                                    value="Stop"
-                                    icon={<FaStop />}
-                                    onClick={() => stopAnimation()}
-                                    bg="red"
-                                />
-                            ) : (
-                                <Button
-                                    value="Start"
-                                    icon={<FaPlay />}
-                                    onClick={() => animate()}
-                                    bg="green"
-                                />
-                            )}
-                            <Button
+                                span={3}
                                 value="Shuffle"
                                 icon={<FaRandom />}
                                 onClick={() => {
@@ -187,6 +155,44 @@ const Sorting = () => {
                                 }}
                                 bg="orangered"
                             />
+                            <Button
+                                span={3}
+                                value="Reset"
+                                icon={<FaUndo />}
+                                onClick={() => CanvasScript.resetArray()}
+                                bg="red"
+                            />
+                            <Button
+                                span={2}
+                                value="Sort"
+                                icon={<FaSignal />}
+                                onClick={() => runAlgo("sort")}
+                                bg="blue"
+                            />
+                            <Button
+                                span={2}
+                                value="Step"
+                                icon={<FaStepForward />}
+                                onClick={() => runAlgo("step")}
+                                bg="royalblue"
+                            />
+                            {animPalying ? (
+                                <Button
+                                    span={2}
+                                    value="Stop"
+                                    icon={<FaStop />}
+                                    onClick={() => stopAnimation()}
+                                    bg="red"
+                                />
+                            ) : (
+                                <Button
+                                    span={2}
+                                    value="Start"
+                                    icon={<FaPlay />}
+                                    onClick={() => animate()}
+                                    bg="green"
+                                />
+                            )}
                         </div>
                     </div>
                 </div>
