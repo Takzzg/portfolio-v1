@@ -6,7 +6,8 @@ import {
     FaRandom,
     FaSignal,
     FaStepForward,
-    FaStop
+    FaStop,
+    FaUndo
 } from "react-icons/fa"
 
 import * as CanvasScript from "../scripts/canvas/canvas"
@@ -145,6 +146,12 @@ const Sorting = () => {
 
                         <div className={styles.actionsContainer}>
                             <Button
+                                value="Reset"
+                                icon={<FaUndo />}
+                                onClick={() => CanvasScript.resetArray()}
+                                bg="red"
+                            />
+                            <Button
                                 value="Sort"
                                 icon={<FaSignal />}
                                 onClick={() => runAlgo("sort")}
@@ -176,7 +183,7 @@ const Sorting = () => {
                                 icon={<FaRandom />}
                                 onClick={() => {
                                     stopAnimation()
-                                    CanvasScript.resetArray()
+                                    CanvasScript.shuffleArray()
                                 }}
                                 bg="orangered"
                             />

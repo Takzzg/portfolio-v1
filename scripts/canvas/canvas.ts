@@ -5,6 +5,7 @@ let ctx: CanvasRenderingContext2D
 let parent: HTMLElement
 
 let array: number[]
+let lastRandomArray: number[]
 
 let maxHeight: number
 let itemCount: number
@@ -22,7 +23,7 @@ export const checkSolved = () => {
 export const updateValues = (_itemCount: number, _maxHeight: number) => {
     maxHeight = Math.round(_maxHeight)
     itemCount = Math.round(_itemCount)
-    resetArray()
+    shuffleArray()
 }
 
 export const resizeCanvas = (draw = true): void => {
@@ -31,10 +32,11 @@ export const resizeCanvas = (draw = true): void => {
     if (draw) drawBars()
 }
 
-export const resetArray = (draw = true) => {
+export const shuffleArray = (draw = true) => {
     array = []
     for (let i = 0; i < itemCount; i++)
         array[i] = Math.random() * maxHeight + 0.5
+    lastRandomArray = [...array]
     if (draw) drawBars()
 }
 
@@ -46,7 +48,7 @@ export const initCanvas = (_itemCount: number, _maxHeight: number) => {
     maxHeight = Math.round(_maxHeight)
     itemCount = Math.round(_itemCount)
 
-    resetArray(false)
+    shuffleArray(false)
     resizeCanvas(false)
     drawBars()
 }
@@ -58,17 +60,20 @@ const clearCanvas = () => {
 
 const drawBars = () => {
     clearCanvas()
+    console.log(`array: ${array} \n lastRandomArray: ${lastRandomArray}`)
+
     const padding = 50
 
     for (let i = 0; i < array.length; i++) {
         let x = Math.ceil(
             padding + ((canvas.width - padding * 2) / array.length) * i
         )
+
         let y = Math.ceil(canvas.height - padding)
         let w = Math.ceil((canvas.width - padding * 2) / array.length)
         let h = Math.ceil(-((canvas.height - padding * 2) * (array[i] / 100)))
-        let hsl = 255 * (array[i] / maxHeight)
 
+        let hsl = 255 * (array[i] / maxHeight)
         ctx.fillStyle = "hsl(" + hsl + ",80%,50%)"
         ctx.fillRect(x, y, w, h)
     }
@@ -80,4 +85,9 @@ export const run = (algoMethod: Function) => {
         algoMethod(array)
         drawBars()
     }
+}
+
+export const resetArray = () => {
+    array = [...lastRandomArray]
+    drawBars()
 }
