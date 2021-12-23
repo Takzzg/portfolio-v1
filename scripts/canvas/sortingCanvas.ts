@@ -10,6 +10,19 @@ let lastRandomArray: number[]
 let maxHeight: number
 let itemCount: number
 
+export const initCanvas = (_itemCount: number, _maxHeight: number) => {
+    canvas = <HTMLCanvasElement>document.getElementById("sortingCanvas")
+    ctx = <CanvasRenderingContext2D>canvas.getContext("2d")
+    parent = <HTMLElement>canvas.parentElement
+
+    maxHeight = Math.round(_maxHeight)
+    itemCount = Math.round(_itemCount)
+
+    shuffleArray(false)
+    resizeCanvas(false)
+    drawBars()
+}
+
 export const checkSolved = () => {
     let solved = true
     for (let i = 0; i < array.length - 1; i++)
@@ -38,19 +51,6 @@ export const shuffleArray = (draw = true) => {
         array[i] = Math.random() * maxHeight + 0.5
     lastRandomArray = [...array]
     if (draw) drawBars()
-}
-
-export const initCanvas = (_itemCount: number, _maxHeight: number) => {
-    canvas = <HTMLCanvasElement>document.getElementById("sortingCanvas")
-    ctx = <CanvasRenderingContext2D>canvas.getContext("2d")
-    parent = <HTMLElement>canvas.parentElement
-
-    maxHeight = Math.round(_maxHeight)
-    itemCount = Math.round(_itemCount)
-
-    shuffleArray(false)
-    resizeCanvas(false)
-    drawBars()
 }
 
 const clearCanvas = () => {

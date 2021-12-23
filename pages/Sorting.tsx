@@ -10,7 +10,7 @@ import {
     FaUndo
 } from "react-icons/fa"
 
-import * as CanvasScript from "../scripts/canvas/canvas"
+import * as CanvasScript from "../scripts/canvas/sortingCanvas"
 import Algorithms from "../scripts/sorting/index"
 import { AlgorithmsRefs } from "../scripts/sorting/algoRefs"
 
@@ -117,10 +117,7 @@ const Sorting = () => {
                                 step={5}
                                 value={itemCount}
                                 onChange={setItemCount}
-                                onReset={() => {
-                                    setItemCount(20)
-                                    CanvasScript.resetArray()
-                                }}
+                                onReset={setItemCount}
                             />
                             <Slider
                                 label={"Max Height"}
@@ -130,10 +127,7 @@ const Sorting = () => {
                                 step={5}
                                 value={maxHeight}
                                 onChange={setMaxHeight}
-                                onReset={() => {
-                                    setMaxHeight(100)
-                                    CanvasScript.resetArray()
-                                }}
+                                onReset={setMaxHeight}
                             />
                             <Slider
                                 label={"Animation Speed"}
@@ -143,7 +137,7 @@ const Sorting = () => {
                                 step={10}
                                 value={animSpeed}
                                 onChange={setAnimSpeed}
-                                onReset={() => setAnimSpeed(100)}
+                                onReset={setAnimSpeed}
                             />
                         </div>
 
