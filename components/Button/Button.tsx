@@ -7,6 +7,7 @@ interface Props {
     onClick: Function
     bg: string
     span?: number
+    color?: string
 }
 
 const Button = (props: Props) => {
@@ -14,6 +15,7 @@ const Button = (props: Props) => {
         <div
             className={styles.buttonContainer}
             style={{
+                color: props.color,
                 backgroundColor: props.bg,
                 gridColumn: props.span ? `span ${props.span}` : ""
             }}

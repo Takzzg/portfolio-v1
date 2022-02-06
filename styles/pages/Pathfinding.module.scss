@@ -11,10 +11,6 @@
     width: 100%;
     max-width: 1200px;
 
-    .canvasControls {
-        flex-grow: 0;
-    }
-
     #canvasContainer {
         display: flex;
         flex-direction: column;
@@ -23,7 +19,8 @@
         flex-grow: 1;
     }
 
-    .canvasControls {
+    .canvasControls,
+    .gridControls {
         display: flex;
         align-items: center;
         gap: 1rem;

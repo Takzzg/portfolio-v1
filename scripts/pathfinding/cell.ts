@@ -1,21 +1,21 @@
-export class Cell {
-    x: string
-    y: string
-    type: string
-    state: string
-    color = "white"
+class Cell {
+    private x: number
+    private y: number
+    private type: string
+    private visited: boolean
+    private color = "white"
 
-    constructor(x: string, y: string, type: string, state: string) {
+    constructor(x: number, y: number, type: string) {
         this.x = x
         this.y = y
         this.type = type
-        this.state = state
+        this.visited = false
 
-        this.setColor(this.type)
+        this.setColor()
     }
 
-    setColor(type: string) {
-        switch (type) {
+    private setColor() {
+        switch (this.type) {
             case "start":
                 this.color = "green"
                 break
@@ -29,11 +29,23 @@ export class Cell {
                 this.color = "black"
                 break
             default:
-                this.color = "white"
+                this.visited ? (this.color = "grey") : (this.color = "white")
         }
     }
 
     getColor() {
         return this.color
     }
+
+    setType(type: string) {
+        this.type = type
+        this.setColor()
+    }
+
+    setVisited(state: boolean) {
+        this.visited = state
+        this.setColor()
+    }
 }
+
+export default Cell

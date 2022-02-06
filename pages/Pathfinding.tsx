@@ -1,6 +1,13 @@
 import Head from "next/head"
 import { useEffect, useState } from "react"
-import { FaFlag, FaFlagCheckered, FaRegFlag, FaRegSquare } from "react-icons/fa"
+import {
+    FaEraser,
+    FaFlag,
+    FaFlagCheckered,
+    FaRedo,
+    FaRegFlag,
+    FaRegSquare
+} from "react-icons/fa"
 import Button from "../components/Button/Button"
 import Slider from "../components/Slider/Slider"
 import Title from "../components/Title/Title"
@@ -15,6 +22,7 @@ const Pathfinding = (props: Props) => {
     const [height, setHeight] = useState(36)
     const [showGrid, setShowGrid] = useState(true)
     const [selectedBlock, setSelectedBlock] = useState("start")
+    const [painting, setPainting] = useState(false)
 
     const BlockSelect = () => (
         <div className={styles.blocksContainer}>
@@ -50,12 +58,21 @@ const Pathfinding = (props: Props) => {
                 }}
                 bg={selectedBlock === "wall" ? "darkslategray" : "null"}
             />
+            <Button
+                value="Empty"
+                icon={<FaEraser />}
+                onClick={() => {
+                    setSelectedBlock("empty")
+                }}
+                bg={selectedBlock === "empty" ? "white" : "null"}
+                color={selectedBlock === "empty" ? "black" : "null"}
+            />
         </div>
     )
 
     useEffect(() => {
-        CanvasScript.initCanvas(width, height, showGrid)
-        window.addEventListener("resize", () => CanvasScript.resizeCanvas())
+        CanvasScript.initCanvas(width, height)
+        window.onresize = CanvasScript.resizeCanvas
     }, [])
 
     useEffect(() => {
@@ -72,7 +89,15 @@ const Pathfinding = (props: Props) => {
                 <Title title="Sorting Algorithms Visualization" />
 
                 <div id={styles.canvasMain}>
-                    <div className={styles.canvasControls}>
+                    <div className={styles.gridControls}>
+                        <Button
+                            value="Reset Grid"
+                            icon={<FaRedo />}
+                            onClick={() => {
+                                CanvasScript.clearGrid()
+                            }}
+                            bg={"red"}
+                        />
                         <div
                             className={styles.checkboxContainer}
                             onClick={() => {
@@ -106,18 +131,29 @@ const Pathfinding = (props: Props) => {
                             onChange={setHeight}
                             onReset={setHeight}
                         />
-                        <BlockSelect />
                     </div>
                     <div id={styles.canvasContainer}>
                         <canvas
                             id="pathfindingCanvas"
+                            // onClick={(event) =>
+                            //     CanvasScript.placeBlock(event, selectedBlock)
+                            // }
+                            onMouseDown={() => setPainting(true)}
+                            onMouseUp={() => setPainting(false)}
+                            onMouseMove={(event) => {
+                                if (painting)
+                                    CanvasScript.placeBlock(
+                                        event,
+                                        selectedBlock
+                                    )
+                            }}
                             onClick={(event) =>
                                 CanvasScript.placeBlock(event, selectedBlock)
                             }
                         />
                     </div>
-                    <div className={styles.controlsContainer}>
-                        select solve step start/stop
+                    <div className={styles.canvasControls}>
+                        select solve step start/stop <BlockSelect />
                     </div>
                 </div>
             </div>
