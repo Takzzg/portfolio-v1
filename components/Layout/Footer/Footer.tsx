@@ -16,6 +16,7 @@ const Footer = (props: Props) => {
                 <span className={styles.repoLink}>
                     <a
                         target={"_blank"}
+                        rel={"noreferrer"}
                         href={"https://github.com/Takzzg/portfolio"}
                     >
                         here
