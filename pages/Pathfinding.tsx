@@ -135,21 +135,28 @@ const Pathfinding = (props: Props) => {
                     <div id={styles.canvasContainer}>
                         <canvas
                             id="pathfindingCanvas"
-                            // onClick={(event) =>
-                            //     CanvasScript.placeBlock(event, selectedBlock)
-                            // }
-                            onMouseDown={() => setPainting(true)}
-                            onMouseUp={() => setPainting(false)}
+                            onMouseDown={(event) => {
+                                setPainting(true)
+                                CanvasScript.placeBlock(event, selectedBlock)
+                                CanvasScript.setLastMousePos(event)
+                            }}
+                            onMouseUp={() => {
+                                setPainting(false)
+                                CanvasScript.resetLastMousePos()
+                            }}
+                            onMouseLeave={() => {
+                                setPainting(false)
+                                CanvasScript.resetLastMousePos()
+                            }}
                             onMouseMove={(event) => {
-                                if (painting)
+                                if (painting) {
                                     CanvasScript.placeBlock(
                                         event,
                                         selectedBlock
                                     )
+                                    CanvasScript.setLastMousePos(event)
+                                }
                             }}
-                            onClick={(event) =>
-                                CanvasScript.placeBlock(event, selectedBlock)
-                            }
                         />
                     </div>
                     <div className={styles.canvasControls}>
