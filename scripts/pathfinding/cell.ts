@@ -29,7 +29,9 @@ class Cell {
                 this._color = "black"
                 break
             default:
-                this.visited ? (this._color = "grey") : (this._color = "white")
+                this.visited
+                    ? (this._color = "yellow")
+                    : (this._color = "white")
         }
     }
 

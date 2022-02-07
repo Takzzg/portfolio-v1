@@ -1,5 +1,6 @@
 import { clamp, lerp } from "../utils"
 import Cell from "../pathfinding/cell"
+import { solve } from "../pathfinding/breadth"
 
 let canvas: HTMLCanvasElement
 let ctx: CanvasRenderingContext2D
@@ -10,7 +11,7 @@ let gridHeight: number
 
 let cellSize: number
 
-let gutter = 0.5
+let gutter = 0.25
 let offsetX: number
 let offsetY: number
 
@@ -39,10 +40,28 @@ export const initCanvas = (_width: number, _height: number) => {
     resizeCanvas()
 }
 
+export const solveGrid = () => {
+    let path = solve(grid, grid[startCell.x][startCell.y])
+    resetVisited()
+
+    if (!path) alert("Maze has no solution")
+    else {
+        path?.forEach((step) => (grid[step.x][step.y].visited = true))
+        drawGrid()
+    }
+}
+
+const resetVisited = () => {
+    for (let x = 0; x < gridWidth; x++)
+        for (let y = 0; y < gridHeight; y++) grid[x][y].visited = false
+
+    drawGrid()
+}
+
 // ----- draw grid -----
 
 export const toggleGrid = () => {
-    gutter = gutter === 0 ? 0.5 : 0
+    gutter = gutter === 0 ? 0.25 : 0
     drawGrid()
 }
 
@@ -162,6 +181,8 @@ export const placeBlock = (
         endCollision(clickCoords)
     )
         return
+
+    resetVisited()
     if (checkpointCollision(clickCoords)) checkpoint = { x: -1, y: -1 }
 
     switch (selectedBlock) {
@@ -320,7 +341,7 @@ const recursiveBacktracking = (
     return _grid
 }
 
-const getNeighbours = (_grid: Cell[][], x: number, y: number) => {
+export const getNeighbours = (_grid: Cell[][], x: number, y: number) => {
     let neighbours: Cell[] = []
 
     if (x - 1 >= 0) neighbours.push(_grid[x - 1][y])

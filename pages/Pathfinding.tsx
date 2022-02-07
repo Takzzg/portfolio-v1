@@ -1,6 +1,7 @@
 import Head from "next/head"
 import { useEffect, useState } from "react"
 import {
+    FaCheck,
     FaEraser,
     FaFlag,
     FaFlagCheckered,
@@ -169,7 +170,16 @@ const Pathfinding = (props: Props) => {
                         />
                     </div>
                     <div className={styles.canvasControls}>
-                        select solve step start/stop <BlockSelect />
+                        select
+                        <Button
+                            value="Solve"
+                            icon={<FaCheck />}
+                            onClick={() => {
+                                CanvasScript.solveGrid()
+                            }}
+                            bg={"green"}
+                        />
+                        step start/stop <BlockSelect />
                     </div>
                 </div>
             </div>
