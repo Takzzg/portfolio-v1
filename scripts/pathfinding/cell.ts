@@ -1,15 +1,15 @@
 class Cell {
-    private x: number
-    private y: number
-    private type: string
-    private visited: boolean
-    private color = "white"
+    private _x: number
+    private _y: number
+    private _type: string
+    private _visited: boolean
+    private _color = "white"
 
     constructor(x: number, y: number, type: string) {
-        this.x = x
-        this.y = y
-        this.type = type
-        this.visited = false
+        this._x = x
+        this._y = y
+        this._type = type
+        this._visited = false
 
         this.setColor()
     }
@@ -17,34 +17,56 @@ class Cell {
     private setColor() {
         switch (this.type) {
             case "start":
-                this.color = "green"
+                this._color = "green"
                 break
             case "checkpoint":
-                this.color = "blue"
+                this._color = "blue"
                 break
             case "end":
-                this.color = "red"
+                this._color = "red"
                 break
             case "wall":
-                this.color = "black"
+                this._color = "black"
                 break
             default:
-                this.visited ? (this.color = "grey") : (this.color = "white")
+                this.visited ? (this._color = "grey") : (this._color = "white")
         }
     }
 
-    getColor() {
-        return this.color
+    // ---------- getters and setters ----------
+
+    public get x(): number {
+        return this._x
+    }
+    public set x(value: number) {
+        this._x = value
     }
 
-    setType(type: string) {
-        this.type = type
+    public get y(): number {
+        return this._y
+    }
+    public set y(value: number) {
+        this._y = value
+    }
+
+    public get type(): string {
+        return this._type
+    }
+    public set type(value: string) {
+        this._type = value
         this.setColor()
     }
 
-    setVisited(state: boolean) {
-        this.visited = state
+    public get visited(): boolean {
+        return this._visited
+    }
+    public set visited(value: boolean) {
+        this._visited = value
         this.setColor()
+    }
+
+    public get color() {
+        return this._color
     }
 }
 

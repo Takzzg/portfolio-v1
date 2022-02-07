@@ -62,27 +62,18 @@ export const clearGrid = () => {
 
     for (let x = 0; x < gridWidth; x++) {
         grid[x] = []
-        for (let y = 0; y < gridHeight; y++) {
+        for (let y = 0; y < gridHeight; y++)
             grid[x][y] = new Cell(x, y, "empty")
-        }
     }
 
-    startCell = {
-        x: 4,
-        y: Math.ceil(gridHeight / 2)
-    }
-    endCell = {
-        x: gridWidth - 5,
-        y: Math.ceil(gridHeight / 2)
-    }
-    checkpoint = {
-        x: -1,
-        y: -1
-    }
+    startCell = { x: 4, y: Math.ceil(gridHeight / 2) }
+    endCell = { x: gridWidth - 5, y: Math.ceil(gridHeight / 2) }
+    checkpoint = { x: -1, y: -1 }
+
     resetLastMousePos()
 
-    grid[startCell.x][startCell.y].setType("start")
-    grid[endCell.x][endCell.y].setType("end")
+    grid[startCell.x][startCell.y].type = "start"
+    grid[endCell.x][endCell.y].type = "end"
 
     drawGrid()
 }
@@ -93,7 +84,7 @@ const updateBlock = (x: number, y: number) => {
     let w = cellSize - gutter * 2
     let h = cellSize - gutter * 2
 
-    ctx.fillStyle = grid[x][y].getColor()
+    ctx.fillStyle = grid[x][y].color
     ctx.fillRect(
         Math.floor(posX),
         Math.floor(posY),
@@ -175,44 +166,42 @@ export const placeBlock = (
 
     switch (selectedBlock) {
         case "start":
-            grid[startCell.x][startCell.y].setType("empty")
+            grid[startCell.x][startCell.y].type = "empty"
             updateBlock(startCell.x, startCell.y)
             startCell = {
                 x: clickCoords.index_x,
                 y: clickCoords.index_y
             }
-            grid[startCell.x][startCell.y].setType("start")
+            grid[startCell.x][startCell.y].type = "start"
             updateBlock(startCell.x, startCell.y)
             break
 
         case "end":
-            grid[endCell.x][endCell.y].setType("empty")
+            grid[endCell.x][endCell.y].type = "empty"
             updateBlock(endCell.x, endCell.y)
             endCell = {
                 x: clickCoords.index_x,
                 y: clickCoords.index_y
             }
-            grid[endCell.x][endCell.y].setType("end")
+            grid[endCell.x][endCell.y].type = "end"
             updateBlock(endCell.x, endCell.y)
             break
 
         case "checkpoint":
             if (checkpoint.x !== -1) {
-                grid[checkpoint.x][checkpoint.y].setType("empty")
+                grid[checkpoint.x][checkpoint.y].type = "empty"
                 updateBlock(checkpoint.x, checkpoint.y)
             }
             checkpoint = {
                 x: clickCoords.index_x,
                 y: clickCoords.index_y
             }
-            grid[checkpoint.x][checkpoint.y].setType("checkpoint")
+            grid[checkpoint.x][checkpoint.y].type = "checkpoint"
             updateBlock(checkpoint.x, checkpoint.y)
             break
 
         default:
-            grid[clickCoords.index_x][clickCoords.index_y].setType(
-                selectedBlock
-            )
+            grid[clickCoords.index_x][clickCoords.index_y].type = selectedBlock
             if (lastMousePos.x !== -1)
                 diagonalLine(
                     clickCoords.index_x,
@@ -269,7 +258,75 @@ const diagonalLine = (x: number, y: number, selectedBlock: string) => {
     lastMousePos = { ...currentMousePos }
 
     points.forEach((point) => {
-        grid[point.x][point.y].setType(selectedBlock)
+        grid[point.x][point.y].type = selectedBlock
         updateBlock(point.x, point.y)
     })
+}
+
+// ----- maze generation -----
+
+export const generateMaze = () => {
+    let _grid: Cell[][]
+    _grid = []
+
+    for (let x = 0; x < gridWidth; x++) {
+        _grid[x] = []
+        for (let y = 0; y < gridHeight; y++)
+            _grid[x][y] = new Cell(x, y, "wall")
+    }
+
+    startCell = { x: 0, y: 0 }
+    endCell = { x: gridWidth - 1, y: gridHeight - 1 }
+
+    _grid[0][0].type = "start"
+    _grid[gridWidth - 1][gridHeight - 1].type = "end"
+
+    grid = [...recursiveBacktracking(_grid, 0, 0)]
+
+    for (let x = 0; x < gridWidth; x++)
+        for (let y = 0; y < gridHeight; y++) grid[x][y].visited = false
+
+    drawGrid()
+}
+
+const recursiveBacktracking = (
+    _grid: Cell[][],
+    x: number,
+    y: number,
+    neighbours: Cell[] = []
+) => {
+    if (_grid[x][y].type !== "start" && _grid[x][y].type !== "end")
+        _grid[x][y].type = "empty"
+    _grid[x][y].visited = true
+
+    neighbours.push(...getNeighbours(_grid, x, y))
+
+    let randN: Cell
+    let randI = -1
+
+    while (neighbours.length) {
+        randI = Math.floor(Math.random() * neighbours.length)
+        randN = neighbours[randI]
+        let visitedN = 0
+
+        getNeighbours(_grid, randN.x, randN.y).forEach((neigh) => {
+            if (neigh.visited) visitedN++
+        })
+        neighbours.splice(randI, 1)
+        if (visitedN < 2)
+            recursiveBacktracking(_grid, randN.x, randN.y, neighbours)
+    }
+
+    return _grid
+}
+
+const getNeighbours = (_grid: Cell[][], x: number, y: number) => {
+    let neighbours: Cell[] = []
+
+    if (x - 1 >= 0) neighbours.push(_grid[x - 1][y])
+    if (x + 1 <= gridWidth - 1) neighbours.push(_grid[x + 1][y])
+    if (y - 1 >= 0) neighbours.push(_grid[x][y - 1])
+    if (y + 1 <= gridHeight - 1) neighbours.push(_grid[x][y + 1])
+
+    return neighbours
 }

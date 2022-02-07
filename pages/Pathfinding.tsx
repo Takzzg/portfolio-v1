@@ -4,6 +4,7 @@ import {
     FaEraser,
     FaFlag,
     FaFlagCheckered,
+    FaRandom,
     FaRedo,
     FaRegFlag,
     FaRegSquare
@@ -90,6 +91,14 @@ const Pathfinding = (props: Props) => {
 
                 <div id={styles.canvasMain}>
                     <div className={styles.gridControls}>
+                        <Button
+                            value="Randomize"
+                            icon={<FaRandom />}
+                            onClick={() => {
+                                CanvasScript.generateMaze()
+                            }}
+                            bg={"orange"}
+                        />
                         <Button
                             value="Reset Grid"
                             icon={<FaRedo />}
