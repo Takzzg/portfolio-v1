@@ -41,19 +41,19 @@ export const initCanvas = (_width: number, _height: number) => {
 }
 
 export const solveGrid = () => {
-    let path = solve(grid, grid[startCell.x][startCell.y])
+    let solution = solve(grid, grid[startCell.x][startCell.y])
     resetVisited()
 
-    if (!path) alert("Maze has no solution")
-    else {
-        path?.forEach((step) => (grid[step.x][step.y].visited = true))
-        drawGrid()
-    }
+    if (!solution?.path) alert("Maze has no solution")
+    else return solution
 }
 
-const resetVisited = () => {
+export const resetVisited = () => {
     for (let x = 0; x < gridWidth; x++)
-        for (let y = 0; y < gridHeight; y++) grid[x][y].visited = false
+        for (let y = 0; y < gridHeight; y++) {
+            if (grid[x][y].type === "path") grid[x][y].type = "empty"
+            grid[x][y].visited = false
+        }
 
     drawGrid()
 }
@@ -97,11 +97,19 @@ export const clearGrid = () => {
     drawGrid()
 }
 
-const updateBlock = (x: number, y: number) => {
+export const updateBlock = (
+    x: number,
+    y: number,
+    type?: string,
+    visited?: boolean
+) => {
     let posX = x * cellSize + offsetX + gutter
     let posY = y * cellSize + offsetY + gutter
     let w = cellSize - gutter * 2
     let h = cellSize - gutter * 2
+
+    if (visited) grid[x][y].visited = visited
+    if (type) grid[x][y].type = type
 
     ctx.fillStyle = grid[x][y].color
     ctx.fillRect(
@@ -110,6 +118,8 @@ const updateBlock = (x: number, y: number) => {
         Math.floor(w),
         Math.floor(h)
     )
+
+    return x === endCell.x && y === endCell.y
 }
 
 // ----- resize -----
@@ -296,11 +306,11 @@ export const generateMaze = () => {
             _grid[x][y] = new Cell(x, y, "wall")
     }
 
-    startCell = { x: 0, y: 0 }
-    endCell = { x: gridWidth - 1, y: gridHeight - 1 }
+    startCell = { x: 4, y: Math.ceil(gridHeight / 2) }
+    endCell = { x: gridWidth - 5, y: Math.ceil(gridHeight / 2) }
 
-    _grid[0][0].type = "start"
-    _grid[gridWidth - 1][gridHeight - 1].type = "end"
+    _grid[startCell.x][startCell.y].type = "start"
+    _grid[endCell.x][endCell.y].type = "end"
 
     grid = [...recursiveBacktracking(_grid, 0, 0)]
 

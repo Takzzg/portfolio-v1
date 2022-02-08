@@ -45,14 +45,6 @@
         gap: 1rem;
     }
 
-    .algoSelect {
-        background-color: $hover;
-        color: $textPrimary;
-        border: none;
-        border-radius: 0.25rem;
-        padding: 0.5rem;
-    }
-
     .actionsContainer {
         display: grid;
         grid-template-columns: repeat(6, 1fr);

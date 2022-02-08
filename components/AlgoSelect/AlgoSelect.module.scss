@@ -1,0 +1,13 @@
+@import "../../styles/common/utils.scss";
+
+.selectContainer {
+    display: flex;
+
+    .algoSelect {
+        background-color: $hover;
+        color: $textPrimary;
+        border: none;
+        border-radius: 0.25rem;
+        padding: 0.5rem;
+    }
+}

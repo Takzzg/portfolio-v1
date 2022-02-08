@@ -28,10 +28,12 @@ class Cell {
             case "wall":
                 this._color = "black"
                 break
+            case "path":
+                this._color = "lightseagreen"
+                break
             default:
-                this.visited
-                    ? (this._color = "yellow")
-                    : (this._color = "white")
+                this._color = this._visited ? "lightslategray" : "white"
+                break
         }
     }
 

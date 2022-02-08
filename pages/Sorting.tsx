@@ -12,12 +12,13 @@ import {
 
 import * as CanvasScript from "../scripts/canvas/sortingCanvas"
 import Algorithms from "../scripts/sorting/index"
-import { AlgorithmsRefs } from "../scripts/sorting/algoRefs"
+import { sortingAlgos } from "../components/AlgoSelect/algoRefs"
 
 import styles from "../styles/pages/Sorting.module.scss"
 import Slider from "../components/Slider/Slider"
 import Title from "../components/Title/Title"
 import Button from "../components/Button/Button"
+import AlgorithmSelect from "../components/AlgoSelect/AlgoSelect"
 
 const Sorting = () => {
     const [itemCount, setItemCount] = useState<number>(20)
@@ -74,27 +75,6 @@ const Sorting = () => {
         }
     }
 
-    const AlgorithmSelect = () => (
-        <div>
-            Sort using:&nbsp;
-            <select
-                className={styles.algoSelect}
-                name="algorithms"
-                id="algorithms"
-                value={algoName}
-                onChange={(event) => setAlgoName(event.target.value)}
-            >
-                {AlgorithmsRefs.map((algo) => (
-                    <option key={algo.value} value={algo.value}>
-                        {`${
-                            algo.value[0].toUpperCase() + algo.value.slice(1)
-                        } Sort`}
-                    </option>
-                ))}
-            </select>
-        </div>
-    )
-
     return (
         <>
             <Head>
@@ -141,7 +121,11 @@ const Sorting = () => {
                             />
                         </div>
 
-                        <AlgorithmSelect />
+                        <AlgorithmSelect
+                            action={"Sort"}
+                            refs={sortingAlgos}
+                            postfix="Sort"
+                        />
 
                         <div className={styles.actionsContainer}>
                             <Button

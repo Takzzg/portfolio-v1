@@ -1,20 +1,25 @@
 import Head from "next/head"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import {
     FaCheck,
     FaEraser,
     FaFlag,
     FaFlagCheckered,
+    FaPlay,
     FaRandom,
     FaRedo,
     FaRegFlag,
-    FaRegSquare
+    FaRegSquare,
+    FaStop
 } from "react-icons/fa"
+import { pathfindingAlgos } from "../components/AlgoSelect/algoRefs"
+import AlgorithmSelect from "../components/AlgoSelect/AlgoSelect"
 import Button from "../components/Button/Button"
 import Slider from "../components/Slider/Slider"
 import Title from "../components/Title/Title"
 
 import * as CanvasScript from "../scripts/canvas/pathfindingCanvas"
+import { CellHistory } from "../scripts/pathfinding/breadth"
 import styles from "../styles/pages/Pathfinding.module.scss"
 
 interface Props {}
@@ -81,6 +86,75 @@ const Pathfinding = (props: Props) => {
         CanvasScript.resizeGrid(width, height)
     }, [width, height])
 
+    const solution = useRef<
+        | {
+              history: CellHistory[]
+              path: {
+                  x: number
+                  y: number
+              }[]
+          }
+        | undefined
+    >(undefined)
+    const [animPlaying, setAnimPlaying] = useState(false)
+    const animation = useRef<NodeJS.Timer | null>(null)
+
+    const animate = () => {
+        if (!solution.current) {
+            CanvasScript.resetVisited()
+            solution.current = CanvasScript.solveGrid()
+        }
+
+        setAnimPlaying(true)
+        animation.current = setInterval(() => {
+            if (solution.current?.history.length) {
+                let next = solution.current.history.shift()?.current as {
+                    x: number
+                    y: number
+                }
+                if (CanvasScript.updateBlock(next.x, next.y, undefined, true))
+                    solution.current.history = []
+                return
+            } else if (solution.current?.path.length) {
+                let next = solution.current?.path.shift() as {
+                    x: number
+                    y: number
+                }
+                CanvasScript.updateBlock(next.x, next.y, "path")
+                return
+            } else resetSolution()
+        }, 25)
+    }
+
+    const stopAnim = () => {
+        setAnimPlaying(false)
+        animation.current && clearInterval(animation.current)
+    }
+
+    const resetSolution = () => {
+        stopAnim()
+        solution.current = undefined
+    }
+
+    const solve = () => {
+        solution.current = CanvasScript.solveGrid()
+        while (solution.current?.history.length) {
+            let next = solution.current.history.shift()?.current as {
+                x: number
+                y: number
+            }
+            if (CanvasScript.updateBlock(next.x, next.y, undefined, true))
+                solution.current.history = []
+        }
+        while (solution.current?.path.length) {
+            let next = solution.current?.path.shift() as {
+                x: number
+                y: number
+            }
+            CanvasScript.updateBlock(next.x, next.y, "path")
+        }
+    }
+
     return (
         <>
             <Head>
@@ -91,19 +165,21 @@ const Pathfinding = (props: Props) => {
                 <Title title="Sorting Algorithms Visualization" />
 
                 <div id={styles.canvasMain}>
-                    <div className={styles.gridControls}>
+                    <div className={styles.toolbarTop}>
                         <Button
                             value="Randomize"
                             icon={<FaRandom />}
                             onClick={() => {
+                                resetSolution()
                                 CanvasScript.generateMaze()
                             }}
                             bg={"orange"}
                         />
                         <Button
-                            value="Reset Grid"
+                            value="Reset"
                             icon={<FaRedo />}
                             onClick={() => {
+                                resetSolution()
                                 CanvasScript.clearGrid()
                             }}
                             bg={"red"}
@@ -169,17 +245,54 @@ const Pathfinding = (props: Props) => {
                             }}
                         />
                     </div>
-                    <div className={styles.canvasControls}>
-                        select
-                        <Button
-                            value="Solve"
-                            icon={<FaCheck />}
-                            onClick={() => {
-                                CanvasScript.solveGrid()
-                            }}
-                            bg={"green"}
-                        />
-                        step start/stop <BlockSelect />
+                    <div className={styles.toolbarBottom}>
+                        <div className={styles.algoControls}>
+                            <AlgorithmSelect
+                                action={"Solve"}
+                                refs={pathfindingAlgos}
+                            />
+                            <Button
+                                value="Clear"
+                                icon={<FaEraser />}
+                                onClick={() => {
+                                    resetSolution()
+                                    CanvasScript.resetVisited()
+                                }}
+                                bg={"orangered"}
+                            />
+                            <Button
+                                value="Solve"
+                                icon={<FaCheck />}
+                                onClick={() => {
+                                    resetSolution()
+                                    CanvasScript.resetVisited()
+                                    solve()
+                                }}
+                                bg={"blue"}
+                            />
+                            {animPlaying ? (
+                                <Button
+                                    value="Stop"
+                                    icon={<FaStop />}
+                                    onClick={() => {
+                                        stopAnim()
+                                    }}
+                                    bg={"red"}
+                                />
+                            ) : (
+                                <Button
+                                    value="Animate"
+                                    icon={<FaPlay />}
+                                    onClick={() => {
+                                        animate()
+                                    }}
+                                    bg={"green"}
+                                />
+                            )}
+                        </div>
+                        <div className={styles.palette}>
+                            <BlockSelect />
+                        </div>
                     </div>
                 </div>
             </div>
