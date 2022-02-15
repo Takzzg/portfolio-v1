@@ -18,7 +18,7 @@ const Home: NextPage = () => {
                     <div className={`${styles.textAccent} ${styles.firstLine}`}>
                         Hello.
                     </div>
-                    <div className={styles.secondLine}>I'm Guido</div>
+                    <div className={styles.secondLine}>I&apos;m Guido</div>
                     <div className={styles.thirdLine}>A web developer</div>
 
                     <Moutains />
