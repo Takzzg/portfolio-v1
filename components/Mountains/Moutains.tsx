@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useRef } from "react"
 import Button from "../Button/Button"
 import { FaRandom } from "react-icons/fa"
 import { drawMountains } from "./script"
@@ -6,13 +6,16 @@ import styles from "./Mountains.module.scss"
 
 type Props = {
     peakCount?: number
-    color?: string
 }
 
-const Moutains = ({ peakCount = 7, color = "#14191f" }: Props) => {
+const Moutains = ({ peakCount = 7 }: Props) => {
+    const canvas = useRef<HTMLCanvasElement>(null)
+
     useEffect(() => {
-        drawMountains(peakCount, color)
-        window.addEventListener("resize", () => drawMountains(peakCount, color))
+        drawMountains(canvas.current as HTMLCanvasElement, peakCount)
+        window.addEventListener("resize", () =>
+            drawMountains(canvas.current!, peakCount)
+        )
     }, [])
 
     return (
@@ -20,11 +23,11 @@ const Moutains = ({ peakCount = 7, color = "#14191f" }: Props) => {
             <div className={styles.mountainsBtn}>
                 <Button
                     icon={<FaRandom />}
-                    onClick={() => drawMountains(peakCount, color)}
+                    onClick={() => drawMountains(canvas.current!, peakCount)}
                     bg="transparent"
                 />
             </div>
-            <canvas id="mountains" />
+            <canvas ref={canvas} />
         </div>
     )
 }

@@ -20,14 +20,35 @@ const Home: NextPage = () => {
                     </div>
                     <div className={styles.secondLine}>I&apos;m Guido</div>
                     <div className={styles.thirdLine}>A web developer</div>
-
-                    <Moutains />
                 </div>
 
                 <div
                     className={styles.technologies}
                     style={{ backgroundColor: "#14191f" }}
                 >
+                    <Moutains />
+                    <div className={styles.tech}>HTML</div>
+                    <div className={styles.tech}>JS</div>
+                    <div className={styles.tech}>CSS</div>
+                    <div className={styles.tech}>React</div>
+                </div>
+
+                <div
+                    className={styles.technologies}
+                    style={{ backgroundColor: "rgb(73, 67, 67)" }}
+                >
+                    <Moutains />
+                    <div className={styles.tech}>HTML</div>
+                    <div className={styles.tech}>JS</div>
+                    <div className={styles.tech}>CSS</div>
+                    <div className={styles.tech}>React</div>
+                </div>
+
+                <div
+                    className={styles.technologies}
+                    style={{ backgroundColor: "rgb(241, 157, 69)" }}
+                >
+                    <Moutains />
                     <div className={styles.tech}>HTML</div>
                     <div className={styles.tech}>JS</div>
                     <div className={styles.tech}>CSS</div>
