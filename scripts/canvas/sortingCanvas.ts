@@ -11,9 +11,9 @@ let maxHeight: number
 let itemCount: number
 
 export const initCanvas = (_itemCount: number, _maxHeight: number) => {
-    canvas = <HTMLCanvasElement>document.getElementById("sortingCanvas")
-    ctx = <CanvasRenderingContext2D>canvas.getContext("2d")
-    parent = <HTMLElement>canvas.parentElement
+    canvas = document.getElementById("sortingCanvas") as HTMLCanvasElement
+    ctx = canvas.getContext("2d") as CanvasRenderingContext2D
+    parent = canvas.parentElement as HTMLElement
 
     maxHeight = Math.round(_maxHeight)
     itemCount = Math.round(_itemCount)

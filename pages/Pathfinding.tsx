@@ -162,7 +162,7 @@ const Pathfinding = (props: Props) => {
             </Head>
 
             <div className={styles.mainContainer}>
-                <Title title="Sorting Algorithms Visualization" />
+                <Title title="Pathfinding Algorithms Visualization" />
 
                 <div id={styles.canvasMain}>
                     <div className={styles.toolbarTop}>
