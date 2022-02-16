@@ -1,7 +1,7 @@
 import type { NextPage } from "next"
 import Head from "next/head"
 
-import Moutains from "../components/Mountains/Moutains"
+import Section from "../components/Section/Section"
 import styles from "../styles/pages/Home.module.scss"
 
 const Home: NextPage = () => {
@@ -22,38 +22,33 @@ const Home: NextPage = () => {
                     <div className={styles.thirdLine}>A web developer</div>
                 </div>
 
-                <div
-                    className={styles.technologies}
-                    style={{ backgroundColor: "#14191f" }}
-                >
-                    <Moutains />
+                <Section color={"#14191f"} divider={"mountains"}>
                     <div className={styles.tech}>HTML</div>
                     <div className={styles.tech}>JS</div>
                     <div className={styles.tech}>CSS</div>
                     <div className={styles.tech}>React</div>
-                </div>
+                </Section>
 
-                <div
-                    className={styles.technologies}
-                    style={{ backgroundColor: "rgb(73, 67, 67)" }}
-                >
-                    <Moutains />
+                <Section color={"rgb(73, 67, 67)"}>
                     <div className={styles.tech}>HTML</div>
                     <div className={styles.tech}>JS</div>
                     <div className={styles.tech}>CSS</div>
                     <div className={styles.tech}>React</div>
-                </div>
+                </Section>
 
-                <div
-                    className={styles.technologies}
-                    style={{ backgroundColor: "rgb(241, 157, 69)" }}
-                >
-                    <Moutains />
+                <Section color={"rgb(241, 157, 69)"} divider={"bezier"}>
                     <div className={styles.tech}>HTML</div>
                     <div className={styles.tech}>JS</div>
                     <div className={styles.tech}>CSS</div>
                     <div className={styles.tech}>React</div>
-                </div>
+                </Section>
+
+                <Section color={"#14191f"} divider={"bezier"}>
+                    <div className={styles.tech}>HTML</div>
+                    <div className={styles.tech}>JS</div>
+                    <div className={styles.tech}>CSS</div>
+                    <div className={styles.tech}>React</div>
+                </Section>
             </div>
         </div>
     )
