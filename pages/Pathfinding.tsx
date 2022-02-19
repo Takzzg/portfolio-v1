@@ -16,7 +16,7 @@ import { pathfindingAlgos } from "../components/AlgoSelect/algoRefs"
 import AlgorithmSelect from "../components/AlgoSelect/AlgoSelect"
 import Button from "../components/Button/Button"
 import Slider from "../components/Slider/Slider"
-import Title from "../components/Title/Title"
+import Title from "../components/Headers/Title"
 
 import * as CanvasScript from "../scripts/canvas/pathfindingCanvas"
 import { CellHistory } from "../scripts/pathfinding/breadth"
@@ -162,7 +162,7 @@ const Pathfinding = (props: Props) => {
             </Head>
 
             <div className={styles.mainContainer}>
-                <Title title="Pathfinding Algorithms Visualization" />
+                <Title>Pathfinding Algorithms Visualization</Title>
 
                 <div id={styles.canvasMain}>
                     <div className={styles.toolbarTop}>

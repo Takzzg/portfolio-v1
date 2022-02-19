@@ -16,7 +16,7 @@ import { sortingAlgos } from "../components/AlgoSelect/algoRefs"
 
 import styles from "../styles/pages/Sorting.module.scss"
 import Slider from "../components/Slider/Slider"
-import Title from "../components/Title/Title"
+import Title from "../components/Headers/Title"
 import Button from "../components/Button/Button"
 import AlgorithmSelect from "../components/AlgoSelect/AlgoSelect"
 
@@ -82,7 +82,7 @@ const Sorting = () => {
             </Head>
 
             <div className={styles.mainContainer}>
-                <Title title="Sorting Algorithms Visualization" />
+                <Title>Sorting Algorithms Visualization</Title>
 
                 <div id={styles.canvasMain}>
                     <div id={styles.canvasContainer}>

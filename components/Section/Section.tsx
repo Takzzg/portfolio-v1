@@ -11,7 +11,7 @@ const Section = ({ children, divider = "mountains", color }: Props) => {
     return (
         <div style={{ backgroundColor: color, position: "relative" }}>
             <Divider color={color} divider={divider} />
-            {children}
+            <div style={{ padding: "1rem" }}>{children}</div>
         </div>
     )
 }
