@@ -18,13 +18,22 @@ import Button from "../components/Button/Button"
 import Slider from "../components/Slider/Slider"
 import Title from "../components/Headers/Title"
 
-import * as CanvasScript from "../scripts/canvas/pathfindingCanvas"
+import * as PathfindingScript from "../scripts/canvas/pathfindingCanvas"
+import * as CommonScripts from "../scripts/canvas/gridCommons"
 import { CellHistory } from "../scripts/pathfinding/breadth"
 import styles from "../styles/pages/Pathfinding.module.scss"
 
-interface Props {}
+interface solution {
+    history: CellHistory[]
+    path: { x: number; y: number }[]
+}
 
-const Pathfinding = (props: Props) => {
+const Pathfinding = () => {
+    const canvas = useRef<HTMLCanvasElement>(null)
+    const solution = useRef<solution | undefined>(undefined)
+    const animation = useRef<NodeJS.Timer | null>(null)
+
+    const [animPlaying, setAnimPlaying] = useState(false)
     const [width, Setwidth] = useState(64)
     const [height, setHeight] = useState(36)
     const [showGrid, setShowGrid] = useState(true)
@@ -78,31 +87,26 @@ const Pathfinding = (props: Props) => {
     )
 
     useEffect(() => {
-        CanvasScript.initCanvas(width, height)
-        window.onresize = CanvasScript.resizeCanvas
+        PathfindingScript.initCanvas(canvas.current!, width, height)
+        window.onresize = PathfindingScript.resizeCanvas
+
+        return () => {
+            stopAnim()
+            resetSolution()
+            window.onresize = null
+        }
     }, [])
 
     useEffect(() => {
-        CanvasScript.resizeGrid(width, height)
+        stopAnim()
+        resetSolution()
+        PathfindingScript.resizeGrid(width, height)
     }, [width, height])
-
-    const solution = useRef<
-        | {
-              history: CellHistory[]
-              path: {
-                  x: number
-                  y: number
-              }[]
-          }
-        | undefined
-    >(undefined)
-    const [animPlaying, setAnimPlaying] = useState(false)
-    const animation = useRef<NodeJS.Timer | null>(null)
 
     const animate = () => {
         if (!solution.current) {
-            CanvasScript.resetVisited()
-            solution.current = CanvasScript.solveGrid()
+            PathfindingScript.resetVisited()
+            solution.current = PathfindingScript.solveGrid()
         }
 
         setAnimPlaying(true)
@@ -112,7 +116,14 @@ const Pathfinding = (props: Props) => {
                     x: number
                     y: number
                 }
-                if (CanvasScript.updateBlock(next.x, next.y, undefined, true))
+                if (
+                    PathfindingScript.updateBlock(
+                        next.x,
+                        next.y,
+                        undefined,
+                        true
+                    )
+                )
                     solution.current.history = []
                 return
             } else if (solution.current?.path.length) {
@@ -120,7 +131,7 @@ const Pathfinding = (props: Props) => {
                     x: number
                     y: number
                 }
-                CanvasScript.updateBlock(next.x, next.y, "path")
+                PathfindingScript.updateBlock(next.x, next.y, "path")
                 return
             } else resetSolution()
         }, 25)
@@ -137,13 +148,13 @@ const Pathfinding = (props: Props) => {
     }
 
     const solve = () => {
-        solution.current = CanvasScript.solveGrid()
+        solution.current = PathfindingScript.solveGrid()
         while (solution.current?.history.length) {
             let next = solution.current.history.shift()?.current as {
                 x: number
                 y: number
             }
-            if (CanvasScript.updateBlock(next.x, next.y, undefined, true))
+            if (PathfindingScript.updateBlock(next.x, next.y, undefined, true))
                 solution.current.history = []
         }
         while (solution.current?.path.length) {
@@ -151,7 +162,7 @@ const Pathfinding = (props: Props) => {
                 x: number
                 y: number
             }
-            CanvasScript.updateBlock(next.x, next.y, "path")
+            PathfindingScript.updateBlock(next.x, next.y, "path")
         }
     }
 
@@ -171,7 +182,7 @@ const Pathfinding = (props: Props) => {
                             icon={<FaRandom />}
                             onClick={() => {
                                 resetSolution()
-                                CanvasScript.generateMaze()
+                                PathfindingScript.generateMaze()
                             }}
                             bg={"orange"}
                         />
@@ -180,7 +191,7 @@ const Pathfinding = (props: Props) => {
                             icon={<FaRedo />}
                             onClick={() => {
                                 resetSolution()
-                                CanvasScript.clearGrid()
+                                PathfindingScript.clearGrid()
                             }}
                             bg={"red"}
                         />
@@ -188,7 +199,7 @@ const Pathfinding = (props: Props) => {
                             className={styles.checkboxContainer}
                             onClick={() => {
                                 setShowGrid(!showGrid)
-                                CanvasScript.toggleGrid()
+                                PathfindingScript.toggleGrid()
                             }}
                         >
                             <input
@@ -220,27 +231,33 @@ const Pathfinding = (props: Props) => {
                     </div>
                     <div id={styles.canvasContainer}>
                         <canvas
+                            ref={canvas}
                             id="pathfindingCanvas"
                             onMouseDown={(event) => {
+                                stopAnim()
+                                resetSolution()
                                 setPainting(true)
-                                CanvasScript.placeBlock(event, selectedBlock)
-                                CanvasScript.setLastMousePos(event)
+                                PathfindingScript.placeBlock(
+                                    event,
+                                    selectedBlock
+                                )
+                                CommonScripts.setLastMousePos(event)
                             }}
                             onMouseUp={() => {
                                 setPainting(false)
-                                CanvasScript.resetLastMousePos()
+                                CommonScripts.resetLastMousePos()
                             }}
                             onMouseLeave={() => {
                                 setPainting(false)
-                                CanvasScript.resetLastMousePos()
+                                CommonScripts.resetLastMousePos()
                             }}
                             onMouseMove={(event) => {
                                 if (painting) {
-                                    CanvasScript.placeBlock(
+                                    PathfindingScript.placeBlock(
                                         event,
                                         selectedBlock
                                     )
-                                    CanvasScript.setLastMousePos(event)
+                                    CommonScripts.setLastMousePos(event)
                                 }
                             }}
                         />
@@ -256,7 +273,7 @@ const Pathfinding = (props: Props) => {
                                 icon={<FaEraser />}
                                 onClick={() => {
                                     resetSolution()
-                                    CanvasScript.resetVisited()
+                                    PathfindingScript.resetVisited()
                                 }}
                                 bg={"orangered"}
                             />
@@ -265,7 +282,7 @@ const Pathfinding = (props: Props) => {
                                 icon={<FaCheck />}
                                 onClick={() => {
                                     resetSolution()
-                                    CanvasScript.resetVisited()
+                                    PathfindingScript.resetVisited()
                                     solve()
                                 }}
                                 bg={"blue"}
