@@ -60,8 +60,8 @@ const Home: NextPage = () => {
                     <div>
                         Wanna reach me ?
                         <br />
-                        Feel free to use any of the following platforms. I'll
-                        awnser as soon as posible
+                        Feel free to use any of the following platforms.
+                        I&apos;ll awnser as soon as posible
                     </div>
                 </Section>
 
