@@ -1,10 +1,12 @@
-import React from "react"
 import NavLink from "./NavLink/NavLink"
 import styles from "./Navbar.module.scss"
 import { useRouter } from "next/router"
+import { useContext } from "react"
+import { langCtx } from "../../../context/Lang"
 
 const Navbar = () => {
     const router = useRouter()
+    const languageCtx = useContext(langCtx)
 
     return (
         <div
@@ -16,11 +18,25 @@ const Navbar = () => {
             }
         >
             <div className={styles.navbar}>
-                <NavLink href={"/"} title={"Home"} />
+                <NavLink href={"/"} title={languageCtx.lang.nav.homeLink} />
                 <NavLink href={"/AntColony"} title={"Ant Colony"} />
                 <NavLink href={"/Conways"} title={"Conway's"} />
                 <NavLink href={"/Pathfinding"} title={"Pathfinding"} />
                 <NavLink href={"/Sorting"} title={"Sorting"} />
+                <button
+                    onClick={() => {
+                        languageCtx.changeLang("es")
+                    }}
+                >
+                    Español
+                </button>
+                <button
+                    onClick={() => {
+                        languageCtx.changeLang("en")
+                    }}
+                >
+                    English
+                </button>
             </div>
         </div>
     )
