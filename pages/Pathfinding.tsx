@@ -67,10 +67,8 @@ const Pathfinding = () => {
     ]
 
     const animate = () => {
-        if (!solution.current) {
-            PathfindingScript.resetVisited()
-            solution.current = PathfindingScript.solveGrid()
-        }
+        if (!solution.current) solution.current = PathfindingScript.solveGrid()
+        if (!solution.current) return alert("Maze has no solution")
 
         setAnimPlaying(true)
         animation.current = setInterval(() => {
@@ -140,12 +138,21 @@ const Pathfinding = () => {
 
                 <div id={styles.canvasMain}>
                     <div className={styles.toolbarTop}>
+                        <AlgorithmSelect
+                            action={"Generate Maze"}
+                            refs={pathfindingAlgos}
+                            flexDir="column"
+                        />
                         <Button
                             value="Randomize"
                             icon={<FaRandom />}
                             onClick={() => {
                                 resetSolution()
-                                PathfindingScript.generateMaze()
+                                while (!solution.current) {
+                                    PathfindingScript.generateMaze()
+                                    solution.current =
+                                        PathfindingScript.solveGrid()
+                                }
                             }}
                             bg={"orange"}
                         />
@@ -162,7 +169,7 @@ const Pathfinding = () => {
                             className={styles.checkboxContainer}
                             onClick={() => {
                                 setShowGrid(!showGrid)
-                                PathfindingScript.toggleGrid()
+                                CommonScripts.toggleGrid()
                             }}
                         >
                             <input
@@ -209,6 +216,7 @@ const Pathfinding = () => {
                             onMouseUp={() => {
                                 setPainting(false)
                                 CommonScripts.resetLastMousePos()
+                                solution.current = PathfindingScript.solveGrid()
                             }}
                             onMouseLeave={() => {
                                 setPainting(false)
@@ -245,6 +253,11 @@ const Pathfinding = () => {
                                 value="Solve"
                                 icon={<FaCheck />}
                                 onClick={() => {
+                                    if (!solution.current)
+                                        solution.current =
+                                            PathfindingScript.solveGrid()
+                                    if (!solution.current)
+                                        return alert("Maze has no solution")
                                     resetSolution()
                                     PathfindingScript.resetVisited()
                                     solve()

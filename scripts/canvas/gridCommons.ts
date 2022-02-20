@@ -7,6 +7,8 @@ let canvas: HTMLCanvasElement
 let ctx: CanvasRenderingContext2D
 let parent: HTMLElement
 
+let drawFn: (x: number, y: number) => {}
+
 let cellSize: number
 let gridWidth: number
 let gridHeight: number
@@ -22,27 +24,30 @@ let lastMousePos = { x: -1, y: -1 }
 export const initCanvas = (
     _canvas: HTMLCanvasElement,
     width: number,
-    height: number
+    height: number,
+    _drawFn: (x: number, y: number) => {}
 ) => {
     canvas = _canvas
     ctx = <CanvasRenderingContext2D>canvas.getContext("2d")
     parent = <HTMLElement>canvas.parentElement
 
+    drawFn = _drawFn
+
     gridWidth = width
     gridHeight = height
-    cellSize = resizeCanvas()
+    resizeCanvas()
 
-    return { cellSize, gridWidth, gridHeight }
+    return { gridWidth, gridHeight }
 }
 
 // ----- drawing -----
 
-export const drawGrid = (
-    drawFn: (x: number, y: number) => {},
-    _gutter: number
-) => {
-    gutter = _gutter
+export const toggleGrid = () => {
+    gutter = gutter === 0 ? 0.25 : 0
+    drawGrid()
+}
 
+export const drawGrid = () => {
     ctx.fillStyle = "black"
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
@@ -87,14 +92,15 @@ export const resizeCanvas = () => {
     cellSize = canvas.width / gridWidth
     canvas.height = cellSize * gridHeight
 
-    return clampCellSize()
+    clampCellSize()
 }
 
 export const clampCellSize = () => {
-    return Math.floor(canvas.width / gridWidth) <
+    cellSize =
+        Math.floor(canvas.width / gridWidth) <
         Math.floor(canvas.height / gridHeight)
-        ? Math.floor(canvas.width / gridWidth)
-        : Math.floor(canvas.height / gridHeight)
+            ? Math.floor(canvas.width / gridWidth)
+            : Math.floor(canvas.height / gridHeight)
 }
 
 export const resizeGrid = (_width = gridWidth, _height = gridHeight) => {
@@ -106,7 +112,7 @@ export const resizeGrid = (_width = gridWidth, _height = gridHeight) => {
             ? Math.floor(canvas.width / gridWidth)
             : Math.floor(canvas.height / gridHeight)
 
-    return { gridWidth, gridHeight, cellSize }
+    return { gridWidth, gridHeight }
 }
 
 // ----- interaction -----

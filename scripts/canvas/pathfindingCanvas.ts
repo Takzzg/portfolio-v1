@@ -4,11 +4,7 @@ import { solve } from "../pathfinding/breadth"
 
 let gridWidth: number
 let gridHeight: number
-
-let gutter = 0.25
-
 let grid: Cell[][]
-
 interface coords {
     x: number
     y: number
@@ -26,7 +22,8 @@ export const initCanvas = (
     ;({ gridWidth, gridHeight } = CommonScripts.initCanvas(
         _canvas,
         _width,
-        _height
+        _height,
+        updateBlock
     ))
 
     clearGrid()
@@ -35,9 +32,7 @@ export const initCanvas = (
 export const solveGrid = () => {
     let solution = solve(grid, grid[startCell.x][startCell.y])
     resetVisited()
-
-    if (!solution?.path) alert("Maze has no solution")
-    else return solution
+    return solution
 }
 
 export const resetVisited = () => {
@@ -47,15 +42,10 @@ export const resetVisited = () => {
             grid[x][y].visited = false
         }
 
-    CommonScripts.drawGrid(updateBlock, gutter)
+    CommonScripts.drawGrid()
 }
 
 // ----- draw grid -----
-
-export const toggleGrid = () => {
-    gutter = gutter === 0 ? 0.25 : 0
-    CommonScripts.drawGrid(updateBlock, gutter)
-}
 
 const resetSpecialCells = () => {
     startCell = { x: 4, y: Math.ceil(gridHeight / 2) }
@@ -69,7 +59,7 @@ const resetSpecialCells = () => {
 export const clearGrid = () => {
     grid = CommonScripts.clearGrid()
     resetSpecialCells()
-    CommonScripts.drawGrid(updateBlock, gutter)
+    CommonScripts.drawGrid()
 }
 
 export const updateBlock = (
@@ -89,7 +79,8 @@ export const updateBlock = (
 // ----- resize -----
 
 export const resizeCanvas = (): void => {
-    CommonScripts.drawGrid(updateBlock, gutter)
+    CommonScripts.resizeCanvas()
+    CommonScripts.drawGrid()
 }
 
 export const resizeGrid = (_width: number, _height: number) => {
@@ -193,14 +184,20 @@ export const generateMaze = () => {
             _grid[x][y] = new Cell(x, y, "wall")
     }
 
-    grid = [...recursiveBacktracking(_grid, 0, 0)]
+    grid = [
+        ...recursiveBacktracking(
+            _grid,
+            Math.floor(gridWidth / 2),
+            Math.floor(gridHeight / 2)
+        )
+    ]
 
     resetSpecialCells()
 
     for (let x = 0; x < gridWidth; x++)
         for (let y = 0; y < gridHeight; y++) grid[x][y].visited = false
 
-    CommonScripts.drawGrid(updateBlock, gutter)
+    CommonScripts.drawGrid()
 }
 
 const recursiveBacktracking = (
@@ -227,7 +224,7 @@ const recursiveBacktracking = (
             if (neigh.visited) visitedN++
         })
         neighbours.splice(randI, 1)
-        if (visitedN < 2)
+        if (visitedN < 2 && Math.random() < 0.666)
             recursiveBacktracking(_grid, randN.x, randN.y, neighbours)
     }
 
@@ -238,9 +235,9 @@ export const getNeighbours = (_grid: Cell[][], x: number, y: number) => {
     let neighbours: Cell[] = []
 
     if (x - 1 >= 0) neighbours.push(_grid[x - 1][y])
-    if (x + 1 <= gridWidth - 1) neighbours.push(_grid[x + 1][y])
+    if (x + 1 < gridWidth) neighbours.push(_grid[x + 1][y])
     if (y - 1 >= 0) neighbours.push(_grid[x][y - 1])
-    if (y + 1 <= gridHeight - 1) neighbours.push(_grid[x][y + 1])
+    if (y + 1 < gridHeight) neighbours.push(_grid[x][y + 1])
 
     return neighbours
 }
