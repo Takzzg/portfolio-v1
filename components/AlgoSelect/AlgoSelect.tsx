@@ -6,15 +6,19 @@ interface Props {
     action: string
     refs: AlgoRefProps[]
     postfix?: string
+    flexDir?: "row" | "row-reverse" | "column" | "column-reverse"
 }
 
 const AlgorithmSelect = (props: Props) => {
-    const { action, refs, postfix = "" } = props
+    const { action, refs, postfix = "", flexDir = "row" } = props
 
     const [algoName, setAlgoName] = useState(refs[0].value)
 
     return (
-        <div className={styles.selectContainer}>
+        <div
+            className={styles.selectContainer}
+            style={{ flexDirection: flexDir }}
+        >
             {action} using:&nbsp;
             <select
                 className={styles.algoSelect}

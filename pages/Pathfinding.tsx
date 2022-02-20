@@ -22,6 +22,7 @@ import * as PathfindingScript from "../scripts/canvas/pathfindingCanvas"
 import * as CommonScripts from "../scripts/canvas/gridCommons"
 import { CellHistory } from "../scripts/pathfinding/breadth"
 import styles from "../styles/pages/Pathfinding.module.scss"
+import BlockSelect from "../components/BlockSelect/BlockSelect"
 
 interface solution {
     history: CellHistory[]
@@ -40,52 +41,6 @@ const Pathfinding = () => {
     const [selectedBlock, setSelectedBlock] = useState("start")
     const [painting, setPainting] = useState(false)
 
-    const BlockSelect = () => (
-        <div className={styles.blocksContainer}>
-            <Button
-                value="Start"
-                icon={<FaRegFlag />}
-                onClick={() => {
-                    setSelectedBlock("start")
-                }}
-                bg={selectedBlock === "start" ? "green" : "null"}
-            />
-            <Button
-                value="Checkpoint"
-                icon={<FaFlagCheckered />}
-                onClick={() => {
-                    setSelectedBlock("checkpoint")
-                }}
-                bg={selectedBlock === "checkpoint" ? "blue" : "null"}
-            />
-            <Button
-                value="End"
-                icon={<FaFlag />}
-                onClick={() => {
-                    setSelectedBlock("end")
-                }}
-                bg={selectedBlock === "end" ? "red" : "null"}
-            />
-            <Button
-                value="Wall"
-                icon={<FaRegSquare />}
-                onClick={() => {
-                    setSelectedBlock("wall")
-                }}
-                bg={selectedBlock === "wall" ? "darkslategray" : "null"}
-            />
-            <Button
-                value="Empty"
-                icon={<FaEraser />}
-                onClick={() => {
-                    setSelectedBlock("empty")
-                }}
-                bg={selectedBlock === "empty" ? "white" : "null"}
-                color={selectedBlock === "empty" ? "black" : "null"}
-            />
-        </div>
-    )
-
     useEffect(() => {
         PathfindingScript.initCanvas(canvas.current!, width, height)
         window.onresize = PathfindingScript.resizeCanvas
@@ -102,6 +57,14 @@ const Pathfinding = () => {
         resetSolution()
         PathfindingScript.resizeGrid(width, height)
     }, [width, height])
+
+    const options = [
+        { value: "Start", icon: <FaRegFlag />, bg: "green" },
+        { value: "Checkpoint", icon: <FaFlagCheckered />, bg: "blue" },
+        { value: "End", icon: <FaFlag />, bg: "red" },
+        { value: "Wall", icon: <FaRegSquare />, bg: "darkslategray" },
+        { value: "Empty", icon: <FaEraser />, bg: "white", color: "black" }
+    ]
 
     const animate = () => {
         if (!solution.current) {
@@ -267,6 +230,7 @@ const Pathfinding = () => {
                             <AlgorithmSelect
                                 action={"Solve"}
                                 refs={pathfindingAlgos}
+                                flexDir="column"
                             />
                             <Button
                                 value="Clear"
@@ -291,25 +255,23 @@ const Pathfinding = () => {
                                 <Button
                                     value="Stop"
                                     icon={<FaStop />}
-                                    onClick={() => {
-                                        stopAnim()
-                                    }}
+                                    onClick={stopAnim}
                                     bg={"red"}
                                 />
                             ) : (
                                 <Button
                                     value="Animate"
                                     icon={<FaPlay />}
-                                    onClick={() => {
-                                        animate()
-                                    }}
+                                    onClick={animate}
                                     bg={"green"}
                                 />
                             )}
                         </div>
-                        <div className={styles.palette}>
-                            <BlockSelect />
-                        </div>
+                        <BlockSelect
+                            selectedBlock={selectedBlock}
+                            onClick={setSelectedBlock}
+                            options={options}
+                        />
                     </div>
                 </div>
             </div>
