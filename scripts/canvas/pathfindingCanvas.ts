@@ -193,9 +193,9 @@ export const generateMaze = () => {
             _grid[x][y] = new Cell(x, y, "wall")
     }
 
-    resetSpecialCells()
-
     grid = [...recursiveBacktracking(_grid, 0, 0)]
+
+    resetSpecialCells()
 
     for (let x = 0; x < gridWidth; x++)
         for (let y = 0; y < gridHeight; y++) grid[x][y].visited = false
