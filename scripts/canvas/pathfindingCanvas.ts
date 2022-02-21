@@ -1,10 +1,11 @@
 import * as CommonScripts from "./gridCommons"
-import Cell from "../pathfinding/cell"
 import { solve } from "../pathfinding/breadth"
+import PathfindingCell from "../pathfinding/cell"
 
 let gridWidth: number
 let gridHeight: number
-let grid: Cell[][]
+let grid: PathfindingCell[][]
+
 interface coords {
     x: number
     y: number
@@ -57,7 +58,14 @@ const resetSpecialCells = () => {
 }
 
 export const clearGrid = () => {
-    grid = CommonScripts.clearGrid()
+    grid = []
+
+    for (let x = 0; x < gridWidth; x++) {
+        grid[x] = []
+        for (let y = 0; y < gridHeight; y++)
+            grid[x][y] = new PathfindingCell(x, y, "empty")
+    }
+
     resetSpecialCells()
     CommonScripts.drawGrid()
 }
@@ -175,13 +183,13 @@ const drawLine = (x: number, y: number, selectedBlock: string) => {
 // ----- maze generation -----
 
 export const generateMaze = () => {
-    let _grid: Cell[][]
+    let _grid: PathfindingCell[][]
     _grid = []
 
     for (let x = 0; x < gridWidth; x++) {
         _grid[x] = []
         for (let y = 0; y < gridHeight; y++)
-            _grid[x][y] = new Cell(x, y, "wall")
+            _grid[x][y] = new PathfindingCell(x, y, "wall")
     }
 
     grid = [
@@ -201,10 +209,10 @@ export const generateMaze = () => {
 }
 
 const recursiveBacktracking = (
-    _grid: Cell[][],
+    _grid: PathfindingCell[][],
     x: number,
     y: number,
-    neighbours: Cell[] = []
+    neighbours: PathfindingCell[] = []
 ) => {
     if (_grid[x][y].type !== "start" && _grid[x][y].type !== "end")
         _grid[x][y].type = "empty"
@@ -212,7 +220,7 @@ const recursiveBacktracking = (
 
     neighbours.push(...getNeighbours(_grid, x, y))
 
-    let randN: Cell
+    let randN: PathfindingCell
     let randI = -1
 
     while (neighbours.length) {
@@ -231,8 +239,12 @@ const recursiveBacktracking = (
     return _grid
 }
 
-export const getNeighbours = (_grid: Cell[][], x: number, y: number) => {
-    let neighbours: Cell[] = []
+export const getNeighbours = (
+    _grid: PathfindingCell[][],
+    x: number,
+    y: number
+) => {
+    let neighbours: PathfindingCell[] = []
 
     if (x - 1 >= 0) neighbours.push(_grid[x - 1][y])
     if (x + 1 < gridWidth) neighbours.push(_grid[x + 1][y])

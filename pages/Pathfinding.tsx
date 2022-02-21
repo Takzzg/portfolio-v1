@@ -202,7 +202,6 @@ const Pathfinding = () => {
                     <div id={styles.canvasContainer}>
                         <canvas
                             ref={canvas}
-                            id="pathfindingCanvas"
                             onMouseDown={(event) => {
                                 stopAnim()
                                 resetSolution()

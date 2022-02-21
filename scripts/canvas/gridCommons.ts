@@ -1,4 +1,3 @@
-import Cell from "../pathfinding/cell"
 import { clamp, lerp } from "./../utils"
 
 // ----- internal vars for reusability -----
@@ -7,7 +6,7 @@ let canvas: HTMLCanvasElement
 let ctx: CanvasRenderingContext2D
 let parent: HTMLElement
 
-let drawFn: (x: number, y: number) => {}
+let drawFn: (x: number, y: number) => {} | void
 
 let cellSize: number
 let gridWidth: number
@@ -25,7 +24,7 @@ export const initCanvas = (
     _canvas: HTMLCanvasElement,
     width: number,
     height: number,
-    _drawFn: (x: number, y: number) => {}
+    _drawFn: (x: number, y: number) => {} | void
 ) => {
     canvas = _canvas
     ctx = <CanvasRenderingContext2D>canvas.getContext("2d")
@@ -71,18 +70,6 @@ export const drawCell = (x: number, y: number, color: string) => {
         Math.floor(w),
         Math.floor(h)
     )
-}
-
-export const clearGrid = () => {
-    let grid: Cell[][] = []
-
-    for (let x = 0; x < gridWidth; x++) {
-        grid[x] = []
-        for (let y = 0; y < gridHeight; y++)
-            grid[x][y] = new Cell(x, y, "empty")
-    }
-
-    return grid
 }
 
 // ----- resize -----
