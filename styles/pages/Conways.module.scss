@@ -19,7 +19,8 @@
         flex-grow: 1;
     }
 
-    .controls {
+    .toolbarTop,
+    .toolbarBottom {
         display: flex;
         align-items: center;
         justify-content: space-around;

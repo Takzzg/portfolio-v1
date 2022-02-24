@@ -7,11 +7,13 @@ import Title from "../components/Headers/Title"
 import * as ConwaysScript from "../scripts/canvas/conwaysCanvas"
 import * as CommonScripts from "../scripts/canvas/gridCommons"
 import Slider from "../components/Slider/Slider"
+import Head from "next/head"
 
 const Conways = () => {
     const canvas = useRef<HTMLCanvasElement>(null)
     const animation = useRef<NodeJS.Timer | null>(null)
 
+    const [animSpeed, setAnimSpeed] = useState(100)
     const [animPlaying, setAnimPlaying] = useState(false)
     const [width, Setwidth] = useState(64)
     const [height, setHeight] = useState(36)
@@ -32,6 +34,13 @@ const Conways = () => {
     }, [])
 
     useEffect(() => {
+        if (animPlaying) {
+            stopAnim()
+            animate()
+        }
+    }, [animSpeed])
+
+    useEffect(() => {
         stopAnim()
         ConwaysScript.resizeGrid(width, height)
     }, [width, height])
@@ -44,7 +53,11 @@ const Conways = () => {
         setAnimPlaying(true)
         animation.current = setInterval(() => {
             ConwaysScript.drawNextGen()
-        }, 50)
+            if (ConwaysScript.isDead()) {
+                stopAnim()
+                alert("There are no live cells left")
+            }
+        }, animSpeed)
     }
 
     const stopAnim = () => {
@@ -53,122 +66,141 @@ const Conways = () => {
     }
 
     return (
-        <div className={styles.mainContainer}>
-            <Title>Conway&apos;s Game of Life</Title>
+        <>
+            <Head>
+                <title>Conway's Game of Life</title>
+            </Head>
 
-            <div id={styles.canvasMain}>
-                <div id={styles.canvasContainer}>
-                    <canvas
-                        ref={canvas}
-                        onMouseDown={(event) => {
-                            stopAnim()
-                            let clickCoords = CommonScripts.getCoords(event)
-                            if (!clickCoords) return
-                            setPainting(true)
-                            ConwaysScript.toggleCell(
-                                clickCoords.index_x,
-                                clickCoords.index_y
-                            )
-                            setSelectedState(
-                                ConwaysScript.getCellState(
+            <div className={styles.mainContainer}>
+                <Title>Conway&apos;s Game of Life</Title>
+
+                <div id={styles.canvasMain}>
+                    <div className={styles.toolbarTop}>
+                        <Button
+                            value="Reset"
+                            icon={<FaRedo />}
+                            onClick={() => {
+                                ConwaysScript.clearGrid()
+                            }}
+                            bg={"red"}
+                        />
+                        <div
+                            className={styles.checkboxContainer}
+                            onClick={() => {
+                                setShowGrid(!showGrid)
+                                CommonScripts.toggleGrid()
+                            }}
+                        >
+                            <input
+                                type="checkbox"
+                                name="ShowGrid"
+                                id="showGrid"
+                                defaultChecked={showGrid}
+                            />
+                            <label>Show Grid</label>
+                        </div>
+
+                        <Slider
+                            label={"width"}
+                            min={20}
+                            max={100}
+                            step={1}
+                            value={width}
+                            onChange={Setwidth}
+                            onReset={Setwidth}
+                        />
+                        <Slider
+                            label={"height"}
+                            min={10}
+                            max={50}
+                            step={1}
+                            value={height}
+                            onChange={setHeight}
+                            onReset={setHeight}
+                        />
+                    </div>
+                    <div id={styles.canvasContainer}>
+                        <canvas
+                            ref={canvas}
+                            onMouseDown={(event) => {
+                                stopAnim()
+                                let clickCoords = CommonScripts.getCoords(event)
+                                if (!clickCoords) return
+                                setPainting(true)
+                                ConwaysScript.toggleCell(
                                     clickCoords.index_x,
                                     clickCoords.index_y
                                 )
-                            )
-                            CommonScripts.setLastMousePos(event)
-                        }}
-                        onMouseUp={() => {
-                            setPainting(false)
-                            CommonScripts.resetLastMousePos()
-                            setSelectedState(null)
-                        }}
-                        onMouseLeave={() => {
-                            setPainting(false)
-                            CommonScripts.resetLastMousePos()
-                            setSelectedState(null)
-                        }}
-                        onMouseMove={(event) => {
-                            if (painting) {
-                                let clickCoords = CommonScripts.getCoords(event)
-                                if (!clickCoords) return
-                                ConwaysScript.drawLine(
-                                    clickCoords.index_x,
-                                    clickCoords.index_y,
-                                    selectedState as "alive" | "dead"
+                                setSelectedState(
+                                    ConwaysScript.getCellState(
+                                        clickCoords.index_x,
+                                        clickCoords.index_y
+                                    )
                                 )
                                 CommonScripts.setLastMousePos(event)
-                            }
-                        }}
-                    />
-                </div>
-                <div className={styles.controls}>
-                    <Button
-                        span={2}
-                        value="Step"
-                        icon={<FaStepForward />}
-                        onClick={step}
-                        bg="royalblue"
-                    />
-                    {animPlaying ? (
-                        <Button
-                            value="Stop"
-                            icon={<FaStop />}
-                            onClick={stopAnim}
-                            bg={"red"}
+                            }}
+                            onMouseUp={() => {
+                                setPainting(false)
+                                CommonScripts.resetLastMousePos()
+                                setSelectedState(null)
+                            }}
+                            onMouseLeave={() => {
+                                setPainting(false)
+                                CommonScripts.resetLastMousePos()
+                                setSelectedState(null)
+                            }}
+                            onMouseMove={(event) => {
+                                if (painting) {
+                                    let clickCoords =
+                                        CommonScripts.getCoords(event)
+                                    if (!clickCoords) return
+                                    ConwaysScript.drawLine(
+                                        clickCoords.index_x,
+                                        clickCoords.index_y,
+                                        selectedState as "alive" | "dead"
+                                    )
+                                    CommonScripts.setLastMousePos(event)
+                                }
+                            }}
                         />
-                    ) : (
-                        <Button
-                            value="Animate"
-                            icon={<FaPlay />}
-                            onClick={animate}
-                            bg={"green"}
-                        />
-                    )}
-                    <Button
-                        value="Reset"
-                        icon={<FaRedo />}
-                        onClick={() => {
-                            ConwaysScript.clearGrid()
-                        }}
-                        bg={"red"}
-                    />
-                    <div
-                        className={styles.checkboxContainer}
-                        onClick={() => {
-                            setShowGrid(!showGrid)
-                            CommonScripts.toggleGrid()
-                        }}
-                    >
-                        <input
-                            type="checkbox"
-                            name="ShowGrid"
-                            id="showGrid"
-                            defaultChecked={showGrid}
-                        />
-                        <label>Show Grid</label>
                     </div>
-
-                    <Slider
-                        label={"width"}
-                        min={20}
-                        max={100}
-                        step={1}
-                        value={width}
-                        onChange={Setwidth}
-                        onReset={Setwidth}
-                    />
-                    <Slider
-                        label={"height"}
-                        min={10}
-                        max={50}
-                        step={1}
-                        value={height}
-                        onChange={setHeight}
-                        onReset={setHeight}
-                    />
+                    <div className={styles.toolbarBottom}>
+                        <Button
+                            span={2}
+                            value="Step"
+                            icon={<FaStepForward />}
+                            onClick={step}
+                            bg="royalblue"
+                        />
+                        {animPlaying ? (
+                            <Button
+                                value="Stop"
+                                icon={<FaStop />}
+                                onClick={stopAnim}
+                                bg={"red"}
+                            />
+                        ) : (
+                            <Button
+                                value="Animate"
+                                icon={<FaPlay />}
+                                onClick={animate}
+                                bg={"green"}
+                            />
+                        )}
+                        <Slider
+                            label={"Animation Speed"}
+                            symbol="ms"
+                            min={40}
+                            max={300}
+                            step={10}
+                            value={animSpeed}
+                            onChange={setAnimSpeed}
+                            onReset={setAnimSpeed}
+                        />
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 

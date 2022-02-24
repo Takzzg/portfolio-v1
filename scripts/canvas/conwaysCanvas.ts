@@ -27,6 +27,14 @@ export const drawNextGen = () => {
     CommonScripts.drawGrid()
 }
 
+export const isDead = () => {
+    for (let x = 0; x < gridWidth; x++) {
+        for (let y = 0; y < gridHeight; y++)
+            if (grid[x][y].state === "alive") return false
+    }
+    return true
+}
+
 // ----- drawing -----
 
 export const clearGrid = () => {

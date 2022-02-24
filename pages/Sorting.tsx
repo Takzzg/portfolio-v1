@@ -25,7 +25,7 @@ const Sorting = () => {
     const [maxHeight, setMaxHeight] = useState<number>(100)
     const [animSpeed, setAnimSpeed] = useState<number>(100)
 
-    const [animPalying, setAnimPlaying] = useState<boolean>(false)
+    const [animPlaying, setAnimPlaying] = useState<boolean>(false)
     const animation = useRef<NodeJS.Timer | null>(null)
     const [algoName, setAlgoName] = useState<string>("bubble")
 
@@ -40,7 +40,7 @@ const Sorting = () => {
     }, [itemCount, maxHeight])
 
     useEffect(() => {
-        if (animPalying) {
+        if (animPlaying) {
             stopAnimation()
             animate()
         }
@@ -162,7 +162,7 @@ const Sorting = () => {
                                 onClick={() => runAlgo("step")}
                                 bg="royalblue"
                             />
-                            {animPalying ? (
+                            {animPlaying ? (
                                 <Button
                                     span={2}
                                     value="Stop"
