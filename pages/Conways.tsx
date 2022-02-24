@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { FaPlay, FaRedo, FaStop } from "react-icons/fa"
+import { FaPlay, FaRedo, FaStepForward, FaStop } from "react-icons/fa"
 
 import styles from "../styles/pages/Conways.module.scss"
 import Button from "../components/Button/Button"
@@ -35,6 +35,10 @@ const Conways = () => {
         stopAnim()
         ConwaysScript.resizeGrid(width, height)
     }, [width, height])
+
+    const step = () => {
+        ConwaysScript.drawNextGen()
+    }
 
     const animate = () => {
         setAnimPlaying(true)
@@ -98,6 +102,13 @@ const Conways = () => {
                     />
                 </div>
                 <div className={styles.controls}>
+                    <Button
+                        span={2}
+                        value="Step"
+                        icon={<FaStepForward />}
+                        onClick={step}
+                        bg="royalblue"
+                    />
                     {animPlaying ? (
                         <Button
                             value="Stop"
@@ -136,6 +147,7 @@ const Conways = () => {
                         />
                         <label>Show Grid</label>
                     </div>
+
                     <Slider
                         label={"width"}
                         min={20}
