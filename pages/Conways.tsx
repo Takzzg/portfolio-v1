@@ -68,7 +68,7 @@ const Conways = () => {
     return (
         <>
             <Head>
-                <title>Conway's Game of Life</title>
+                <title>Conway&apos;s Game of Life</title>
             </Head>
 
             <div className={styles.mainContainer}>
