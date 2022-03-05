@@ -13,10 +13,6 @@ interface Props {
 const Layout = ({ children }: Props) => {
     const [showDisclaimer, setShowDisclaimer] = useState(true)
 
-    const handleCloseDisclaimer = () => {
-        setShowDisclaimer(false)
-    }
-
     const Disclaimer = () => {
         return (
             <div className={styles.disclaimerCont}>
@@ -24,7 +20,7 @@ const Layout = ({ children }: Props) => {
                     <span className={styles.title}>Disclaimer</span>
                     <span
                         className={styles.close}
-                        onClick={handleCloseDisclaimer}
+                        onClick={() => setShowDisclaimer(false)}
                     >
                         <GrClose />
                     </span>
