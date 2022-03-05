@@ -19,7 +19,6 @@ const Navbar = () => {
         >
             <div className={styles.navbar}>
                 <NavLink href={"/"} title={languageCtx.lang.nav.homeLink} />
-                <NavLink href={"/AntColony"} title={"Ant Colony"} />
                 <NavLink href={"/Conways"} title={"Conway's"} />
                 <NavLink href={"/Pathfinding"} title={"Pathfinding"} />
                 <NavLink href={"/Sorting"} title={"Sorting"} />
