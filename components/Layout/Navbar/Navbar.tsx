@@ -8,6 +8,13 @@ const Navbar = () => {
     const router = useRouter()
     const languageCtx = useContext(langCtx)
 
+    const buttons = [
+        { href: "/", title: languageCtx.lang.nav.homeLink },
+        { href: "/Conways", title: "Conway's" },
+        { href: "/Pathfinding", title: "Pathfinding" },
+        { href: "/Sorting", title: "Sorting" }
+    ]
+
     return (
         <div
             className={styles.navCont}
@@ -18,10 +25,16 @@ const Navbar = () => {
             }
         >
             <div className={styles.navbar}>
-                <NavLink href={"/"} title={languageCtx.lang.nav.homeLink} />
-                <NavLink href={"/Conways"} title={"Conway's"} />
-                <NavLink href={"/Pathfinding"} title={"Pathfinding"} />
-                <NavLink href={"/Sorting"} title={"Sorting"} />
+                {buttons.map((b, i) => (
+                    <NavLink
+                        key={b.href}
+                        href={b.href}
+                        active={router.pathname === b.href}
+                        title={b.title}
+                        // color={`hsl(${(255 / buttons.length) * i}, 100%, 25%)`}
+                    />
+                ))}
+
                 <button
                     onClick={() => {
                         languageCtx.changeLang("es")
