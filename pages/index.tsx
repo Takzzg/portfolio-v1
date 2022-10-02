@@ -3,32 +3,31 @@ import Head from "next/head";
 import Subtitle from "../components/Headers/Subtitle";
 
 import Section from "../components/Section/Section";
-import styles from "../styles/pages/Home.module.scss";
 
 const Home: NextPage = () => {
 	return (
-		<div className={styles.home}>
+		<div className={"home"}>
 			<Head>
 				<title>Guido Queiroz</title>
 				<meta name="description" content="Guido Queiroz's Portfolio" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			<div className={styles.mainCont}>
-				<div className={styles.mainTitle}>
-					<div className={`${styles.textAccent} ${styles.firstLine}`}>Hello.</div>
-					<div className={styles.secondLine}>I&apos;m Guido</div>
-					<div className={styles.thirdLine}>A web developer</div>
+			<div className={"mainCont"}>
+				<div className={"mainTitle"}>
+					<div className={`${"textAccent"} ${"firstLine"}`}>Hello.</div>
+					<div className={"secondLine"}>I&apos;m Guido</div>
+					<div className={"thirdLine"}>A web developer</div>
 				</div>
 
 				<Section color={"#14191f"} divider={"mountains"}>
 					<Subtitle>What do I do ?</Subtitle>
 					<div>I design and create great web applications with a variety of technologies</div>
-					<div className={styles.techsCont}>
-						<div className={styles.tech}>HTML</div>
-						<div className={styles.tech}>JS</div>
-						<div className={styles.tech}>CSS</div>
-						<div className={styles.tech}>React</div>
+					<div className={"techsCont"}>
+						<div className={"tech"}>HTML</div>
+						<div className={"tech"}>JS</div>
+						<div className={"tech"}>CSS</div>
+						<div className={"tech"}>React</div>
 					</div>
 				</Section>
 
@@ -64,11 +63,11 @@ const Home: NextPage = () => {
 						This website was developed in my free time, using and incorporating different technologies as I
 						learned them
 					</div>
-					<div className={styles.techsCont}>
-						<div className={styles.tech}>HTML</div>
-						<div className={styles.tech}>JS</div>
-						<div className={styles.tech}>CSS</div>
-						<div className={styles.tech}>React</div>
+					<div className={"techsCont"}>
+						<div className={"tech"}>HTML</div>
+						<div className={"tech"}>JS</div>
+						<div className={"tech"}>CSS</div>
+						<div className={"tech"}>React</div>
 					</div>
 				</Section>
 			</div>

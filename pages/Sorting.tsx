@@ -7,7 +7,6 @@ import * as CanvasScript from "../scripts/canvas/sortingCanvas";
 import Algorithms from "../scripts/sorting/index";
 import { sortingAlgos } from "../components/AlgoSelect/algoRefs";
 
-import styles from "../styles/pages/Sorting.module.scss";
 import Slider from "../components/Slider/Slider";
 import Title from "../components/Headers/Title";
 import Button from "../components/Button/Button";
@@ -76,15 +75,15 @@ const Sorting = () => {
 				<title>Sorting Algorithms</title>
 			</Head>
 
-			<div className={styles.mainContainer}>
+			<div className={"mainContainer"}>
 				<Title>Sorting Algorithms Visualization</Title>
 
-				<div id={styles.canvasMain}>
-					<div id={styles.canvasContainer}>
+				<div id={"canvasMain"}>
+					<div id={"canvasContainer"}>
 						<canvas id="sortingCanvas" />
 					</div>
-					<div className={styles.controlsContainer}>
-						<div className={styles.slidersContainer}>
+					<div className={"controlsContainer"}>
+						<div className={"slidersContainer"}>
 							<Slider
 								label={"Item Count"}
 								min={10}
@@ -118,7 +117,7 @@ const Sorting = () => {
 
 						<AlgorithmSelect action={"Sort"} refs={sortingAlgos} postfix="Sort" />
 
-						<div className={styles.actionsContainer}>
+						<div className={"actionsContainer"}>
 							<Button
 								span={3}
 								value="Shuffle"

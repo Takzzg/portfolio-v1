@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { AlgoRefProps } from "./algoRefs";
-import styles from "./AlgoSelect.module.scss";
 
 interface Props {
 	action: string;
@@ -15,10 +14,10 @@ const AlgorithmSelect = (props: Props) => {
 	const [algoName, setAlgoName] = useState(refs[0].value);
 
 	return (
-		<div className={styles.selectContainer} style={{ flexDirection: flexDir }}>
+		<div className={"selectContainer"} style={{ flexDirection: flexDir }}>
 			{action} using:&nbsp;
 			<select
-				className={styles.algoSelect}
+				className={"algoSelect"}
 				name="algorithms"
 				id="algorithms"
 				value={algoName}

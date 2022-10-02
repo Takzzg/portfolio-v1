@@ -21,7 +21,6 @@ import Title from "../components/Headers/Title";
 import * as PathfindingScript from "../scripts/canvas/pathfindingCanvas";
 import * as CommonScripts from "../scripts/canvas/gridCommons";
 import { CellHistory } from "../scripts/pathfinding/breadth";
-import styles from "../styles/pages/Pathfinding.module.scss";
 import BlockSelect from "../components/BlockSelect/BlockSelect";
 
 interface solution {
@@ -125,11 +124,11 @@ const Pathfinding = () => {
 				<title>Pathfinding Algorithms</title>
 			</Head>
 
-			<div className={styles.mainContainer}>
+			<div className={"mainContainer"}>
 				<Title>Pathfinding Algorithms Visualization</Title>
 
-				<div id={styles.canvasMain}>
-					<div className={styles.toolbarTop}>
+				<div id={"canvasMain"}>
+					<div className={"toolbarTop"}>
 						<AlgorithmSelect action={"Generate Maze"} refs={pathfindingAlgos} flexDir="column" />
 						<Button
 							value="Randomize"
@@ -153,7 +152,7 @@ const Pathfinding = () => {
 							bg={"red"}
 						/>
 						<div
-							className={styles.checkboxContainer}
+							className={"checkboxContainer"}
 							onClick={() => {
 								setShowGrid(!showGrid);
 								CommonScripts.toggleGrid();
@@ -181,7 +180,7 @@ const Pathfinding = () => {
 							onReset={setHeight}
 						/>
 					</div>
-					<div id={styles.canvasContainer}>
+					<div id={"canvasContainer"}>
 						<canvas
 							ref={canvas}
 							onMouseDown={(event) => {
@@ -208,8 +207,8 @@ const Pathfinding = () => {
 							}}
 						/>
 					</div>
-					<div className={styles.toolbarBottom}>
-						<div className={styles.algoControls}>
+					<div className={"toolbarBottom"}>
+						<div className={"algoControls"}>
 							<AlgorithmSelect action={"Solve"} refs={pathfindingAlgos} flexDir="column" />
 							<Button
 								value="Clear"

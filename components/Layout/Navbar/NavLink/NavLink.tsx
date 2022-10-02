@@ -1,7 +1,5 @@
 import Link from "next/link";
 
-import styles from "./NavLink.module.scss";
-
 interface Props {
 	href: string;
 	title: string;
@@ -14,7 +12,7 @@ const NavLink = ({ href, title, active, color }: Props) => {
 
 	return (
 		<Link href={href} passHref>
-			<div className={styles.button} style={{ backgroundColor: bg }}>
+			<div className={"button"} style={{ backgroundColor: bg }}>
 				{title}
 			</div>
 		</Link>

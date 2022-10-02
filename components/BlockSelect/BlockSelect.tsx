@@ -1,6 +1,5 @@
 import { Dispatch, ReactNode, SetStateAction } from "react";
 import Button from "../Button/Button";
-import styles from "./BlockSelect.module.scss";
 
 interface Props {
 	selectedBlock: string;
@@ -10,8 +9,8 @@ interface Props {
 
 const BlockSelect = ({ selectedBlock, onClick, options }: Props) => {
 	return (
-		<div className={styles.palette}>
-			<div className={styles.blocksContainer}>
+		<div className={"palette"}>
+			<div className={"blocksContainer"}>
 				{options.map((opt) => (
 					<Button
 						key={opt.value}

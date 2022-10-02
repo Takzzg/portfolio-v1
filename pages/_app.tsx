@@ -1,6 +1,6 @@
 import type { AppProps } from "next/app";
 
-import "../styles/common/globals.scss";
+import "../styles/globals.css";
 import Layout from "../components/Layout/Layout";
 import LangProvider from "../context/Lang";
 
