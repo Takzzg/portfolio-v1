@@ -15,17 +15,8 @@ let startCell: coords;
 let endCell: coords;
 let checkpoint: coords;
 
-export const initCanvas = (
-	_canvas: HTMLCanvasElement,
-	_width: number,
-	_height: number,
-) => {
-	({ gridWidth, gridHeight } = CommonScripts.initCanvas(
-		_canvas,
-		_width,
-		_height,
-		updateBlock,
-	));
+export const initCanvas = (_canvas: HTMLCanvasElement, _width: number, _height: number) => {
+	({ gridWidth, gridHeight } = CommonScripts.initCanvas(_canvas, _width, _height, updateBlock));
 
 	clearGrid();
 };
@@ -62,20 +53,14 @@ export const clearGrid = () => {
 
 	for (let x = 0; x < gridWidth; x++) {
 		grid[x] = [];
-		for (let y = 0; y < gridHeight; y++)
-			grid[x][y] = new PathfindingCell(x, y, "empty");
+		for (let y = 0; y < gridHeight; y++) grid[x][y] = new PathfindingCell(x, y, "empty");
 	}
 
 	resetSpecialCells();
 	CommonScripts.drawGrid();
 };
 
-export const updateBlock = (
-	x: number,
-	y: number,
-	type?: string,
-	visited?: boolean,
-) => {
+export const updateBlock = (x: number, y: number, type?: string, visited?: boolean) => {
 	if (visited) grid[x][y].visited = visited;
 	if (type) grid[x][y].type = type;
 
@@ -107,18 +92,10 @@ const endCollision = (coords: { index_x: number; index_y: number }) =>
 const checkpointCollision = (coords: { index_x: number; index_y: number }) =>
 	coords.index_x === checkpoint.x && coords.index_y === checkpoint.y;
 
-export const placeBlock = (
-	event: React.MouseEvent<HTMLCanvasElement>,
-	selectedBlock: string,
-) => {
+export const placeBlock = (event: React.MouseEvent<HTMLCanvasElement>, selectedBlock: string) => {
 	let clickCoords = CommonScripts.getCoords(event);
 
-	if (
-		!clickCoords ||
-		startCollision(clickCoords) ||
-		endCollision(clickCoords)
-	)
-		return;
+	if (!clickCoords || startCollision(clickCoords) || endCollision(clickCoords)) return;
 
 	resetVisited();
 	if (checkpointCollision(clickCoords)) checkpoint = { x: -1, y: -1 };
@@ -162,12 +139,7 @@ export const placeBlock = (
 		default:
 			let lastMousePos = CommonScripts.getlastMousePos();
 			grid[clickCoords.index_x][clickCoords.index_y].type = selectedBlock;
-			if (lastMousePos.x !== -1)
-				drawLine(
-					clickCoords.index_x,
-					clickCoords.index_y,
-					selectedBlock,
-				);
+			if (lastMousePos.x !== -1) drawLine(clickCoords.index_x, clickCoords.index_y, selectedBlock);
 			else updateBlock(clickCoords.index_x, clickCoords.index_y);
 			break;
 	}
@@ -188,22 +160,14 @@ export const generateMaze = () => {
 
 	for (let x = 0; x < gridWidth; x++) {
 		_grid[x] = [];
-		for (let y = 0; y < gridHeight; y++)
-			_grid[x][y] = new PathfindingCell(x, y, "wall");
+		for (let y = 0; y < gridHeight; y++) _grid[x][y] = new PathfindingCell(x, y, "wall");
 	}
 
-	grid = [
-		...recursiveBacktracking(
-			_grid,
-			Math.floor(gridWidth / 2),
-			Math.floor(gridHeight / 2),
-		),
-	];
+	grid = [...recursiveBacktracking(_grid, Math.floor(gridWidth / 2), Math.floor(gridHeight / 2))];
 
 	resetSpecialCells();
 
-	for (let x = 0; x < gridWidth; x++)
-		for (let y = 0; y < gridHeight; y++) grid[x][y].visited = false;
+	for (let x = 0; x < gridWidth; x++) for (let y = 0; y < gridHeight; y++) grid[x][y].visited = false;
 
 	CommonScripts.drawGrid();
 };
@@ -214,8 +178,7 @@ const recursiveBacktracking = (
 	y: number,
 	neighbours: PathfindingCell[] = [],
 ) => {
-	if (_grid[x][y].type !== "start" && _grid[x][y].type !== "end")
-		_grid[x][y].type = "empty";
+	if (_grid[x][y].type !== "start" && _grid[x][y].type !== "end") _grid[x][y].type = "empty";
 	_grid[x][y].visited = true;
 
 	neighbours.push(...getNeighbours(_grid, x, y));
@@ -232,18 +195,13 @@ const recursiveBacktracking = (
 			if (neigh.visited) visitedN++;
 		});
 		neighbours.splice(randI, 1);
-		if (visitedN < 2 && Math.random() < 0.666)
-			recursiveBacktracking(_grid, randN.x, randN.y, neighbours);
+		if (visitedN < 2 && Math.random() < 0.666) recursiveBacktracking(_grid, randN.x, randN.y, neighbours);
 	}
 
 	return _grid;
 };
 
-export const getNeighbours = (
-	_grid: PathfindingCell[][],
-	x: number,
-	y: number,
-) => {
+export const getNeighbours = (_grid: PathfindingCell[][], x: number, y: number) => {
 	let neighbours: PathfindingCell[] = [];
 
 	if (x - 1 >= 0) neighbours.push(_grid[x - 1][y]);

@@ -22,10 +22,7 @@ const Slider = (props: Props) => {
 				{props.label} = {props.value}
 				{props.symbol}
 			</div>
-			<div
-				className={styles.refresh}
-				onClick={() => props.onReset(defaultValue)}
-			>
+			<div className={styles.refresh} onClick={() => props.onReset(defaultValue)}>
 				<TiRefresh />
 			</div>
 			<input

@@ -15,10 +15,7 @@ const AlgorithmSelect = (props: Props) => {
 	const [algoName, setAlgoName] = useState(refs[0].value);
 
 	return (
-		<div
-			className={styles.selectContainer}
-			style={{ flexDirection: flexDir }}
-		>
+		<div className={styles.selectContainer} style={{ flexDirection: flexDir }}>
 			{action} using:&nbsp;
 			<select
 				className={styles.algoSelect}
@@ -29,10 +26,7 @@ const AlgorithmSelect = (props: Props) => {
 			>
 				{refs.map((algo) => (
 					<option key={algo.value} value={algo.value}>
-						{algo.value[0].toUpperCase() +
-							algo.value.slice(1) +
-							" " +
-							postfix}
+						{algo.value[0].toUpperCase() + algo.value.slice(1) + " " + postfix}
 					</option>
 				))}
 			</select>

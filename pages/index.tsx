@@ -16,19 +16,14 @@ const Home: NextPage = () => {
 
 			<div className={styles.mainCont}>
 				<div className={styles.mainTitle}>
-					<div className={`${styles.textAccent} ${styles.firstLine}`}>
-						Hello.
-					</div>
+					<div className={`${styles.textAccent} ${styles.firstLine}`}>Hello.</div>
 					<div className={styles.secondLine}>I&apos;m Guido</div>
 					<div className={styles.thirdLine}>A web developer</div>
 				</div>
 
 				<Section color={"#14191f"} divider={"mountains"}>
 					<Subtitle>What do I do ?</Subtitle>
-					<div>
-						I design and create great web applications with a
-						variety of technologies
-					</div>
+					<div>I design and create great web applications with a variety of technologies</div>
 					<div className={styles.techsCont}>
 						<div className={styles.tech}>HTML</div>
 						<div className={styles.tech}>JS</div>
@@ -40,18 +35,17 @@ const Home: NextPage = () => {
 				<Section color={"rgb(73, 67, 67)"}>
 					<Subtitle>What do I like to do ?</Subtitle>
 					<div>
-						I enjoy creating robust and modular systems, as well as
-						tinkering with different animations and visualizations
+						I enjoy creating robust and modular systems, as well as tinkering with different animations and
+						visualizations
 					</div>
 				</Section>
 
 				<Section color={"rgb(241, 157, 69)"} divider={"bezier"}>
 					<Subtitle>About Me</Subtitle>
 					<div>
-						My name is Guido Queiroz, I was born in Buenos Aires,
-						Argentina.
-						<br />I was involved with programming since I was around
-						13 years old, participating in a local robotics league
+						My name is Guido Queiroz, I was born in Buenos Aires, Argentina.
+						<br />I was involved with programming since I was around 13 years old, participating in a local
+						robotics league
 					</div>
 				</Section>
 
@@ -60,16 +54,15 @@ const Home: NextPage = () => {
 					<div>
 						Wanna reach me ?
 						<br />
-						Feel free to use any of the following platforms.
-						I&apos;ll awnser as soon as posible
+						Feel free to use any of the following platforms. I&apos;ll awnser as soon as posible
 					</div>
 				</Section>
 
 				<Section color={"rgb(73, 67, 67)"} divider={"mountains"}>
 					<Subtitle>About this Portfolio</Subtitle>
 					<div>
-						This website was developed in my free time, using and
-						incorporating different technologies as I learned them
+						This website was developed in my free time, using and incorporating different technologies as I
+						learned them
 					</div>
 					<div className={styles.techsCont}>
 						<div className={styles.tech}>HTML</div>

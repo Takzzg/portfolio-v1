@@ -18,16 +18,8 @@ const BlockSelect = ({ selectedBlock, onClick, options }: Props) => {
 						onClick={() => onClick(opt.value.toLowerCase())}
 						value={opt.value}
 						icon={opt.icon}
-						bg={
-							selectedBlock === opt.value.toLowerCase()
-								? opt.bg
-								: "inherit"
-						}
-						color={
-							selectedBlock === opt.value.toLowerCase()
-								? opt.color || "white"
-								: "white"
-						}
+						bg={selectedBlock === opt.value.toLowerCase() ? opt.bg : "inherit"}
+						color={selectedBlock === opt.value.toLowerCase() ? opt.color || "white" : "white"}
 					/>
 				))}
 			</div>

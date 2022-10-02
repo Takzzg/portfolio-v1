@@ -8,17 +8,8 @@ let grid: ConwaysCell[][];
 
 // ----- init canvas -----
 
-export const initCanvas = (
-	_canvas: HTMLCanvasElement,
-	_width: number,
-	_height: number,
-) => {
-	({ gridWidth, gridHeight } = CommonScripts.initCanvas(
-		_canvas,
-		_width,
-		_height,
-		setCell,
-	));
+export const initCanvas = (_canvas: HTMLCanvasElement, _width: number, _height: number) => {
+	({ gridWidth, gridHeight } = CommonScripts.initCanvas(_canvas, _width, _height, setCell));
 	clearGrid();
 };
 
@@ -29,8 +20,7 @@ export const drawNextGen = () => {
 
 export const isDead = () => {
 	for (let x = 0; x < gridWidth; x++) {
-		for (let y = 0; y < gridHeight; y++)
-			if (grid[x][y].state === "alive") return false;
+		for (let y = 0; y < gridHeight; y++) if (grid[x][y].state === "alive") return false;
 	}
 	return true;
 };
@@ -42,8 +32,7 @@ export const clearGrid = () => {
 
 	for (let x = 0; x < gridWidth; x++) {
 		grid[x] = [];
-		for (let y = 0; y < gridHeight; y++)
-			grid[x][y] = new ConwaysCell(x, y, "dead");
+		for (let y = 0; y < gridHeight; y++) grid[x][y] = new ConwaysCell(x, y, "dead");
 	}
 
 	CommonScripts.drawGrid();

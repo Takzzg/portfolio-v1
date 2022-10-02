@@ -20,8 +20,7 @@ export const solve = (grid: Cell[][], start: Cell) => {
 	while (queue.length) {
 		let top = queue.shift() as Cell;
 
-		if (top.type === "end")
-			return { history, path: createPath(history, top) };
+		if (top.type === "end") return { history, path: createPath(history, top) };
 		getNeighbours(grid, top.x, top.y).forEach((neigh) => {
 			if (neigh.type === "wall" || neigh.visited) return;
 			neigh.visited = true;
@@ -36,16 +35,11 @@ export const solve = (grid: Cell[][], start: Cell) => {
 
 const createPath = (history: CellHistory[], end: Cell) => {
 	let path: { x: number; y: number }[] = [];
-	let step = history.find(
-		(obj) => obj.current.x === end.x && obj.current.y === end.y,
-	) as CellHistory;
+	let step = history.find((obj) => obj.current.x === end.x && obj.current.y === end.y) as CellHistory;
 
 	while (step.prev.x !== -1) {
 		path.unshift({ x: step.prev.x, y: step.prev.y });
-		step = history.find(
-			(obj) =>
-				obj.current.x === step.prev.x && obj.current.y === step.prev.y,
-		) as CellHistory;
+		step = history.find((obj) => obj.current.x === step.prev.x && obj.current.y === step.prev.y) as CellHistory;
 	}
 
 	path.shift();

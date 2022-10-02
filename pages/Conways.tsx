@@ -19,9 +19,7 @@ const Conways = () => {
 	const [height, setHeight] = useState(36);
 	const [showGrid, setShowGrid] = useState(true);
 	const [painting, setPainting] = useState(false);
-	const [selectedState, setSelectedState] = useState<"alive" | "dead" | null>(
-		null,
-	);
+	const [selectedState, setSelectedState] = useState<"alive" | "dead" | null>(null);
 
 	const animate = useCallback(() => {
 		setAnimPlaying(true);
@@ -91,12 +89,7 @@ const Conways = () => {
 								CommonScripts.toggleGrid();
 							}}
 						>
-							<input
-								type="checkbox"
-								name="ShowGrid"
-								id="showGrid"
-								defaultChecked={showGrid}
-							/>
+							<input type="checkbox" name="ShowGrid" id="showGrid" defaultChecked={showGrid} />
 							<label>Show Grid</label>
 						</div>
 
@@ -124,20 +117,11 @@ const Conways = () => {
 							ref={canvas}
 							onMouseDown={(event) => {
 								stopAnim();
-								let clickCoords =
-									CommonScripts.getCoords(event);
+								let clickCoords = CommonScripts.getCoords(event);
 								if (!clickCoords) return;
 								setPainting(true);
-								ConwaysScript.toggleCell(
-									clickCoords.index_x,
-									clickCoords.index_y,
-								);
-								setSelectedState(
-									ConwaysScript.getCellState(
-										clickCoords.index_x,
-										clickCoords.index_y,
-									),
-								);
+								ConwaysScript.toggleCell(clickCoords.index_x, clickCoords.index_y);
+								setSelectedState(ConwaysScript.getCellState(clickCoords.index_x, clickCoords.index_y));
 								CommonScripts.setLastMousePos(event);
 							}}
 							onMouseUp={() => {
@@ -152,8 +136,7 @@ const Conways = () => {
 							}}
 							onMouseMove={(event) => {
 								if (painting) {
-									let clickCoords =
-										CommonScripts.getCoords(event);
+									let clickCoords = CommonScripts.getCoords(event);
 									if (!clickCoords) return;
 									ConwaysScript.drawLine(
 										clickCoords.index_x,
@@ -167,27 +150,11 @@ const Conways = () => {
 					</div>
 					<div className={styles.toolbarBottom}>
 						{/* TODO: button Step does not pause sim */}
-						<Button
-							span={2}
-							value="Step"
-							icon={<FaStepForward />}
-							onClick={step}
-							bg="royalblue"
-						/>
+						<Button span={2} value="Step" icon={<FaStepForward />} onClick={step} bg="royalblue" />
 						{animPlaying ? (
-							<Button
-								value="Stop"
-								icon={<FaStop />}
-								onClick={stopAnim}
-								bg={"red"}
-							/>
+							<Button value="Stop" icon={<FaStop />} onClick={stopAnim} bg={"red"} />
 						) : (
-							<Button
-								value="Animate"
-								icon={<FaPlay />}
-								onClick={animate}
-								bg={"green"}
-							/>
+							<Button value="Animate" icon={<FaPlay />} onClick={animate} bg={"green"} />
 						)}
 						<Slider
 							label={"Animation Speed"}

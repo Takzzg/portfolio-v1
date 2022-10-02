@@ -47,8 +47,7 @@ export const resizeCanvas = (draw = true): void => {
 
 export const shuffleArray = (draw = true) => {
 	array = [];
-	for (let i = 0; i < itemCount; i++)
-		array[i] = Math.random() * maxHeight + 0.5;
+	for (let i = 0; i < itemCount; i++) array[i] = Math.random() * maxHeight + 0.5;
 	lastRandomArray = [...array];
 	if (draw) drawBars();
 };
@@ -63,9 +62,7 @@ const drawBars = () => {
 	const padding = 50;
 
 	for (let i = 0; i < array.length; i++) {
-		let x = Math.ceil(
-			padding + ((canvas.width - padding * 2) / array.length) * i,
-		);
+		let x = Math.ceil(padding + ((canvas.width - padding * 2) / array.length) * i);
 
 		let y = Math.ceil(canvas.height - padding);
 		let w = Math.ceil((canvas.width - padding * 2) / array.length);

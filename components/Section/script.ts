@@ -10,8 +10,7 @@ export const drawDivider = (
 	canvas.width = parent.clientWidth;
 	canvas.height = 100;
 
-	const prevParent = parent.parentElement!
-		.previousElementSibling as HTMLElement;
+	const prevParent = parent.parentElement!.previousElementSibling as HTMLElement;
 	prevParent.style.paddingBottom = canvas.height.toString() + "px";
 
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -22,8 +21,7 @@ export const drawDivider = (
 
 	if (type === "mountains") {
 		const distance = Math.floor(canvas.width / (7 + 1));
-		for (let x = 1; x <= 7; x++)
-			ctx.lineTo(x * distance, Math.random() * canvas.height);
+		for (let x = 1; x <= 7; x++) ctx.lineTo(x * distance, Math.random() * canvas.height);
 	}
 
 	if (type === "bezier" || type === "bezierInverted") {

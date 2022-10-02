@@ -18,11 +18,7 @@ const Navbar = () => {
 	return (
 		<div
 			className={styles.navCont}
-			style={
-				router.pathname === "/"
-					? { position: "fixed" }
-					: { position: "sticky" }
-			}
+			style={router.pathname === "/" ? { position: "fixed" } : { position: "sticky" }}
 		>
 			<div className={styles.navbar}>
 				{buttons.map((b, i) => (

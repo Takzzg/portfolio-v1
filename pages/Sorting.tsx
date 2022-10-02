@@ -1,14 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Head from "next/head";
 
-import {
-	FaPlay,
-	FaRandom,
-	FaSignal,
-	FaStepForward,
-	FaStop,
-	FaUndo,
-} from "react-icons/fa";
+import { FaPlay, FaRandom, FaSignal, FaStepForward, FaStop, FaUndo } from "react-icons/fa";
 
 import * as CanvasScript from "../scripts/canvas/sortingCanvas";
 import Algorithms from "../scripts/sorting/index";
@@ -48,8 +41,7 @@ const Sorting = () => {
 			else {
 				setAnimPlaying(true);
 				animation.current = setInterval(() => {
-					if (!CanvasScript.checkSolved())
-						CanvasScript.run(script.step);
+					if (!CanvasScript.checkSolved()) CanvasScript.run(script.step);
 					else stopAnimation();
 				}, animSpeed);
 			}
@@ -124,11 +116,7 @@ const Sorting = () => {
 							/>
 						</div>
 
-						<AlgorithmSelect
-							action={"Sort"}
-							refs={sortingAlgos}
-							postfix="Sort"
-						/>
+						<AlgorithmSelect action={"Sort"} refs={sortingAlgos} postfix="Sort" />
 
 						<div className={styles.actionsContainer}>
 							<Button
@@ -174,13 +162,7 @@ const Sorting = () => {
 									bg="red"
 								/>
 							) : (
-								<Button
-									span={2}
-									value="Start"
-									icon={<FaPlay />}
-									onClick={() => animate()}
-									bg="green"
-								/>
+								<Button span={2} value="Start" icon={<FaPlay />} onClick={() => animate()} bg="green" />
 							)}
 						</div>
 					</div>

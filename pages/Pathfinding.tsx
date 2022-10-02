@@ -83,15 +83,7 @@ const Pathfinding = () => {
 					x: number;
 					y: number;
 				};
-				if (
-					PathfindingScript.updateBlock(
-						next.x,
-						next.y,
-						undefined,
-						true,
-					)
-				)
-					solution.current.history = [];
+				if (PathfindingScript.updateBlock(next.x, next.y, undefined, true)) solution.current.history = [];
 				return;
 			} else if (solution.current?.path.length) {
 				let next = solution.current?.path.shift() as {
@@ -116,8 +108,7 @@ const Pathfinding = () => {
 				x: number;
 				y: number;
 			};
-			if (PathfindingScript.updateBlock(next.x, next.y, undefined, true))
-				solution.current.history = [];
+			if (PathfindingScript.updateBlock(next.x, next.y, undefined, true)) solution.current.history = [];
 		}
 		while (solution.current?.path.length) {
 			let next = solution.current?.path.shift() as {
@@ -139,11 +130,7 @@ const Pathfinding = () => {
 
 				<div id={styles.canvasMain}>
 					<div className={styles.toolbarTop}>
-						<AlgorithmSelect
-							action={"Generate Maze"}
-							refs={pathfindingAlgos}
-							flexDir="column"
-						/>
+						<AlgorithmSelect action={"Generate Maze"} refs={pathfindingAlgos} flexDir="column" />
 						<Button
 							value="Randomize"
 							icon={<FaRandom />}
@@ -151,8 +138,7 @@ const Pathfinding = () => {
 								resetSolution();
 								while (!solution.current) {
 									PathfindingScript.generateMaze();
-									solution.current =
-										PathfindingScript.solveGrid();
+									solution.current = PathfindingScript.solveGrid();
 								}
 							}}
 							bg={"orange"}
@@ -173,12 +159,7 @@ const Pathfinding = () => {
 								CommonScripts.toggleGrid();
 							}}
 						>
-							<input
-								type="checkbox"
-								name="ShowGrid"
-								id="showGrid"
-								defaultChecked={showGrid}
-							/>
+							<input type="checkbox" name="ShowGrid" id="showGrid" defaultChecked={showGrid} />
 							<label>Show Grid</label>
 						</div>
 						<Slider
@@ -207,17 +188,13 @@ const Pathfinding = () => {
 								stopAnim();
 								resetSolution();
 								setPainting(true);
-								PathfindingScript.placeBlock(
-									event,
-									selectedBlock,
-								);
+								PathfindingScript.placeBlock(event, selectedBlock);
 								CommonScripts.setLastMousePos(event);
 							}}
 							onMouseUp={() => {
 								setPainting(false);
 								CommonScripts.resetLastMousePos();
-								solution.current =
-									PathfindingScript.solveGrid();
+								solution.current = PathfindingScript.solveGrid();
 							}}
 							onMouseLeave={() => {
 								setPainting(false);
@@ -225,10 +202,7 @@ const Pathfinding = () => {
 							}}
 							onMouseMove={(event) => {
 								if (painting) {
-									PathfindingScript.placeBlock(
-										event,
-										selectedBlock,
-									);
+									PathfindingScript.placeBlock(event, selectedBlock);
 									CommonScripts.setLastMousePos(event);
 								}
 							}}
@@ -236,11 +210,7 @@ const Pathfinding = () => {
 					</div>
 					<div className={styles.toolbarBottom}>
 						<div className={styles.algoControls}>
-							<AlgorithmSelect
-								action={"Solve"}
-								refs={pathfindingAlgos}
-								flexDir="column"
-							/>
+							<AlgorithmSelect action={"Solve"} refs={pathfindingAlgos} flexDir="column" />
 							<Button
 								value="Clear"
 								icon={<FaEraser />}
@@ -254,11 +224,8 @@ const Pathfinding = () => {
 								value="Solve"
 								icon={<FaCheck />}
 								onClick={() => {
-									if (!solution.current)
-										solution.current =
-											PathfindingScript.solveGrid();
-									if (!solution.current)
-										return alert("Maze has no solution");
+									if (!solution.current) solution.current = PathfindingScript.solveGrid();
+									if (!solution.current) return alert("Maze has no solution");
 									resetSolution();
 									PathfindingScript.resetVisited();
 									solve();
@@ -266,26 +233,12 @@ const Pathfinding = () => {
 								bg={"blue"}
 							/>
 							{animPlaying ? (
-								<Button
-									value="Stop"
-									icon={<FaStop />}
-									onClick={stopAnim}
-									bg={"red"}
-								/>
+								<Button value="Stop" icon={<FaStop />} onClick={stopAnim} bg={"red"} />
 							) : (
-								<Button
-									value="Animate"
-									icon={<FaPlay />}
-									onClick={animate}
-									bg={"green"}
-								/>
+								<Button value="Animate" icon={<FaPlay />} onClick={animate} bg={"green"} />
 							)}
 						</div>
-						<BlockSelect
-							selectedBlock={selectedBlock}
-							onClick={setSelectedBlock}
-							options={options}
-						/>
+						<BlockSelect selectedBlock={selectedBlock} onClick={setSelectedBlock} options={options} />
 					</div>
 				</div>
 			</div>
