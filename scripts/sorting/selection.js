@@ -1,3 +1,3 @@
 export const sort = () => {
-    console.log("selection")
-}
+	console.log("selection");
+};

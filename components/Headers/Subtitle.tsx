@@ -1,20 +1,20 @@
-import React, { ReactNode } from "react"
+import React, { ReactNode } from "react";
 
 type Props = {
-    children: string
-}
+	children: string;
+};
 
 const Subtitle = ({ children }: Props) => {
-    return (
-        <div
-            style={{
-                textAlign: "center",
-                fontSize: "2rem"
-            }}
-        >
-            {children}
-        </div>
-    )
-}
+	return (
+		<div
+			style={{
+				textAlign: "center",
+				fontSize: "2rem",
+			}}
+		>
+			{children}
+		</div>
+	);
+};
 
-export default Subtitle
+export default Subtitle;
