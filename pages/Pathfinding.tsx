@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
 	FaCheck,
 	FaEraser,
@@ -37,9 +37,15 @@ const Pathfinding = () => {
 	const [animPlaying, setAnimPlaying] = useState(false);
 	const [width, Setwidth] = useState(64);
 	const [height, setHeight] = useState(36);
+	// TODO: show grid checkbox bugged
 	const [showGrid, setShowGrid] = useState(true);
 	const [selectedBlock, setSelectedBlock] = useState("start");
 	const [painting, setPainting] = useState(false);
+
+	const resetSolution = useCallback(() => {
+		stopAnim();
+		solution.current = undefined;
+	}, []);
 
 	useEffect(() => {
 		PathfindingScript.initCanvas(canvas.current!, width, height);
@@ -50,13 +56,13 @@ const Pathfinding = () => {
 			resetSolution();
 			window.onresize = null;
 		};
-	}, []);
+	}, [width, height, resetSolution]);
 
 	useEffect(() => {
 		stopAnim();
 		resetSolution();
 		PathfindingScript.resizeGrid(width, height);
-	}, [width, height]);
+	}, [width, height, resetSolution]);
 
 	const options = [
 		{ value: "Start", icon: <FaRegFlag />, bg: "green" },
@@ -101,11 +107,6 @@ const Pathfinding = () => {
 	const stopAnim = () => {
 		setAnimPlaying(false);
 		animation.current && clearInterval(animation.current);
-	};
-
-	const resetSolution = () => {
-		stopAnim();
-		solution.current = undefined;
 	};
 
 	const solve = () => {

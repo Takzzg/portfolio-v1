@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Head from "next/head";
 
 import {
@@ -29,36 +29,17 @@ const Sorting = () => {
 	const animation = useRef<NodeJS.Timer | null>(null);
 	const [algoName, setAlgoName] = useState<string>("bubble");
 
-	useEffect(() => {
-		CanvasScript.initCanvas(itemCount, maxHeight);
-		window.addEventListener("resize", () => CanvasScript.resizeCanvas());
-	}, []);
-
-	useEffect(() => {
-		stopAnimation();
-		CanvasScript.updateValues(itemCount, maxHeight);
-	}, [itemCount, maxHeight]);
-
-	useEffect(() => {
-		if (animPlaying) {
+	const runAlgo = useCallback(
+		(fn: string) => {
 			stopAnimation();
-			animate();
-		}
-	}, [animSpeed]);
+			const script = Algorithms[algoName];
+			if (script === undefined) alert("not implemented yet");
+			else CanvasScript.run(script[fn]);
+		},
+		[algoName],
+	);
 
-	const stopAnimation = () => {
-		setAnimPlaying(false);
-		animation.current && clearInterval(animation.current);
-	};
-
-	const runAlgo = (fn: string) => {
-		stopAnimation();
-		const script = Algorithms[algoName];
-		if (script === undefined) alert("not implemented yet");
-		else CanvasScript.run(script[fn]);
-	};
-
-	const animate = () => {
+	const animate = useCallback(() => {
 		if (animSpeed === 0) runAlgo("sort");
 		else if (CanvasScript.checkSolved()) alert("done");
 		else {
@@ -73,6 +54,28 @@ const Sorting = () => {
 				}, animSpeed);
 			}
 		}
+	}, [algoName, animSpeed, runAlgo]);
+
+	useEffect(() => {
+		CanvasScript.initCanvas(itemCount, maxHeight);
+		window.addEventListener("resize", () => CanvasScript.resizeCanvas());
+	}, [itemCount, maxHeight]);
+
+	useEffect(() => {
+		stopAnimation();
+		CanvasScript.updateValues(itemCount, maxHeight);
+	}, [itemCount, maxHeight]);
+
+	useEffect(() => {
+		if (animPlaying) {
+			stopAnimation();
+			animate();
+		}
+	}, [animSpeed, animPlaying, animate]);
+
+	const stopAnimation = () => {
+		setAnimPlaying(false);
+		animation.current && clearInterval(animation.current);
 	};
 
 	return (

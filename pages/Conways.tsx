@@ -166,6 +166,7 @@ const Conways = () => {
 						/>
 					</div>
 					<div className={styles.toolbarBottom}>
+						{/* TODO: button Step does not pause sim */}
 						<Button
 							span={2}
 							value="Step"

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Button from "../Button/Button";
 import { FaRandom } from "react-icons/fa";
 import { drawDivider } from "./script";
@@ -13,9 +13,9 @@ const Divider = ({ color, divider: _divider }: Props) => {
 	const canvas = useRef<HTMLCanvasElement>(null);
 	const [divider, setDivider] = useState(_divider);
 
-	let draw = () => {
+	let draw = useCallback(() => {
 		drawDivider(canvas.current!, color, divider);
-	};
+	}, [color, divider]);
 
 	const handleClick = () => {
 		if (divider === "bezier") setDivider("bezierInverted");
@@ -25,12 +25,11 @@ const Divider = ({ color, divider: _divider }: Props) => {
 
 	useEffect(() => {
 		window.addEventListener("resize", () => draw());
-	}, []);
+	}, [draw]);
 
 	useEffect(() => {
-		draw = () => drawDivider(canvas.current!, color, divider);
-		draw();
-	}, [canvas.current, divider]);
+		drawDivider(canvas.current!, color, divider);
+	}, [color, divider]);
 
 	return (
 		<div className={styles.mountainsCont}>
