@@ -1,21 +1,21 @@
-import { ReactNode } from "react"
+import { ReactNode } from "react";
 
 interface Props {
-    children: string
+	children: string;
 }
 
 const Title = ({ children }: Props) => {
-    return (
-        <div
-            style={{
-                textAlign: "center",
-                fontSize: "2.5em",
-                padding: "1rem"
-            }}
-        >
-            {children}
-        </div>
-    )
-}
+	return (
+		<div
+			style={{
+				textAlign: "center",
+				fontSize: "2.5em",
+				padding: "1rem",
+			}}
+		>
+			{children}
+		</div>
+	);
+};
 
-export default Title
+export default Title;
