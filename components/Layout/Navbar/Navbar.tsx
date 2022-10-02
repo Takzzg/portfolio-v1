@@ -15,11 +15,8 @@ const Navbar = () => {
 	];
 
 	return (
-		<div
-			className={"styles.navCont"}
-			style={router.pathname === "/" ? { position: "fixed" } : { position: "sticky" }}
-		>
-			<div className={"styles.navbar"}>
+		<div className={"navCont"} style={router.pathname === "/" ? { position: "fixed" } : { position: "sticky" }}>
+			<div className={"navbar"}>
 				{buttons.map((b, i) => (
 					<NavLink
 						key={b.href}

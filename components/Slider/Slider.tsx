@@ -16,12 +16,12 @@ const Slider = (props: Props) => {
 	const [defaultValue, setDefaultValue] = useState(props.value);
 
 	return (
-		<div className={"styles.sliderContainer"}>
-			<div className={"styles.inputLabel"}>
+		<div className={"sliderContainer"}>
+			<div className={"inputLabel"}>
 				{props.label} = {props.value}
 				{props.symbol}
 			</div>
-			<div className={"styles.refresh"} onClick={() => props.onReset(defaultValue)}>
+			<div className={"refresh"} onClick={() => props.onReset(defaultValue)}>
 				<TiRefresh />
 			</div>
 			<input

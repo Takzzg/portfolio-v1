@@ -11,7 +11,7 @@ interface Props {
 
 const Button = (props: Props) => (
 	<div
-		className={"styles.buttonContainer"}
+		className={"buttonContainer"}
 		style={{
 			color: props.color,
 			backgroundColor: props.bg,

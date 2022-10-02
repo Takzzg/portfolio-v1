@@ -31,8 +31,8 @@ const Divider = ({ color, divider: _divider }: Props) => {
 	}, [color, divider]);
 
 	return (
-		<div className={"styles.mountainsCont"}>
-			<div className={"styles.mountainsBtn"}>
+		<div className={"mountainsCont"}>
+			<div className={"mountainsBtn"}>
 				<Button icon={<FaRandom />} onClick={handleClick} bg="transparent" />
 			</div>
 			<canvas ref={canvas} />

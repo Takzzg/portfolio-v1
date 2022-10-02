@@ -68,11 +68,11 @@ const Conways = () => {
 				<title>Conway&apos;s Game of Life</title>
 			</Head>
 
-			<div className={"styles.mainContainer"}>
+			<div className={"mainContainer"}>
 				<Title>Conway&apos;s Game of Life</Title>
 
-				<div id={"styles.canvasMain"}>
-					<div className={"styles.toolbarTop"}>
+				<div id={"canvasMain"}>
+					<div className={"toolbarTop"}>
 						<Button
 							value="Reset"
 							icon={<FaRedo />}
@@ -82,7 +82,7 @@ const Conways = () => {
 							bg={"red"}
 						/>
 						<div
-							className={"styles.checkboxContainer"}
+							className={"checkboxContainer"}
 							onClick={() => {
 								setShowGrid(!showGrid);
 								CommonScripts.toggleGrid();
@@ -111,7 +111,7 @@ const Conways = () => {
 							onReset={setHeight}
 						/>
 					</div>
-					<div id={"styles.canvasContainer"}>
+					<div id={"canvasContainer"}>
 						<canvas
 							ref={canvas}
 							onMouseDown={(event) => {
@@ -147,7 +147,7 @@ const Conways = () => {
 							}}
 						/>
 					</div>
-					<div className={"styles.toolbarBottom"}>
+					<div className={"toolbarBottom"}>
 						{/* TODO: button Step does not pause sim */}
 						<Button span={2} value="Step" icon={<FaStepForward />} onClick={step} bg="royalblue" />
 						{animPlaying ? (

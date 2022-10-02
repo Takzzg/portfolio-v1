@@ -2,14 +2,14 @@ interface Props {}
 
 const Footer = (props: Props) => {
 	return (
-		<div className={"styles.footer"}>
-			<div className={"styles.technologies"}>
+		<div className={"footer"}>
+			<div className={"technologies"}>
 				This project was created using:
-				<div className={"styles.techIcons"}>Next.js Typescript Sass React-icons</div>
+				<div className={"techIcons"}>Next.js Typescript Sass React-icons</div>
 			</div>
-			<div className={"styles.linkContainer"}>
+			<div className={"linkContainer"}>
 				Check out the source code{" "}
-				<span className={"styles.repoLink"}>
+				<span className={"repoLink"}>
 					<a target={"_blank"} rel={"noreferrer"} href={"https://github.com/Takzzg/portfolio"}>
 						here
 					</a>

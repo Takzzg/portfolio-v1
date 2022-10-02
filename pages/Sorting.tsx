@@ -75,15 +75,15 @@ const Sorting = () => {
 				<title>Sorting Algorithms</title>
 			</Head>
 
-			<div className={"styles.mainContainer"}>
+			<div className={"mainContainer"}>
 				<Title>Sorting Algorithms Visualization</Title>
 
-				<div id={"styles.canvasMain"}>
-					<div id={"styles.canvasContainer"}>
+				<div id={"canvasMain"}>
+					<div id={"canvasContainer"}>
 						<canvas id="sortingCanvas" />
 					</div>
-					<div className={"styles.controlsContainer"}>
-						<div className={"styles.slidersContainer"}>
+					<div className={"controlsContainer"}>
+						<div className={"slidersContainer"}>
 							<Slider
 								label={"Item Count"}
 								min={10}
@@ -117,7 +117,7 @@ const Sorting = () => {
 
 						<AlgorithmSelect action={"Sort"} refs={sortingAlgos} postfix="Sort" />
 
-						<div className={"styles.actionsContainer"}>
+						<div className={"actionsContainer"}>
 							<Button
 								span={3}
 								value="Shuffle"
