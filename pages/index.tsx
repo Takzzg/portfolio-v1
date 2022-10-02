@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Subtitle from "../components/Headers/Subtitle";
 
+import Subtitle from "../components/Headers/Subtitle";
 import Section from "../components/Section/Section";
 import styles from "../styles/pages/Home.module.scss";
 
