@@ -18,8 +18,8 @@ const theme: iThemes = {
 		text: "#000",
 	},
 	dark: {
-		main: "#111",
-		secondary: "#222",
+		main: "rgb(241, 157, 69)",
+		secondary: "#33B3A6",
 		background: "#333",
 		text: "#fff",
 	},

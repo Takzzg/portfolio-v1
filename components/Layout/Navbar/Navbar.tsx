@@ -1,7 +1,19 @@
-import NavLink from "./NavLink/NavLink";
+import NavLink from "./NavLink";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { langCtx } from "../../../context/Lang";
+import styled from "styled-components";
+
+const StyledNavBar = styled.div`
+	top: 0;
+	z-index: 10;
+	position: sticky;
+
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	justify-content: center;
+`;
 
 const Navbar = () => {
 	const router = useRouter();
@@ -15,34 +27,32 @@ const Navbar = () => {
 	];
 
 	return (
-		<div className={"navCont"} style={router.pathname === "/" ? { position: "fixed" } : { position: "sticky" }}>
-			<div className={"navbar"}>
-				{buttons.map((b, i) => (
-					<NavLink
-						key={b.href}
-						href={b.href}
-						active={router.pathname === b.href}
-						title={b.title}
-						// color={`hsl(${(255 / buttons.length) * i}, 100%, 25%)`}
-					/>
-				))}
+		<StyledNavBar>
+			{buttons.map((b, i) => (
+				<NavLink
+					key={b.href}
+					href={b.href}
+					active={router.pathname === b.href}
+					title={b.title}
+					// color={`hsl(${(255 / buttons.length) * i}, 100%, 25%)`}
+				/>
+			))}
 
-				<button
-					onClick={() => {
-						languageCtx.changeLang("es");
-					}}
-				>
-					Español
-				</button>
-				<button
-					onClick={() => {
-						languageCtx.changeLang("en");
-					}}
-				>
-					English
-				</button>
-			</div>
-		</div>
+			<button
+				onClick={() => {
+					languageCtx.changeLang("es");
+				}}
+			>
+				Español
+			</button>
+			<button
+				onClick={() => {
+					languageCtx.changeLang("en");
+				}}
+			>
+				English
+			</button>
+		</StyledNavBar>
 	);
 };
 
