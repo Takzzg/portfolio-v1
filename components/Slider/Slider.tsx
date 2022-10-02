@@ -1,4 +1,3 @@
-import styles from "./Slider.module.scss";
 import { TiRefresh } from "react-icons/ti";
 import { useState } from "react";
 
@@ -17,12 +16,12 @@ const Slider = (props: Props) => {
 	const [defaultValue, setDefaultValue] = useState(props.value);
 
 	return (
-		<div className={styles.sliderContainer}>
-			<div className={styles.inputLabel}>
+		<div className={"styles.sliderContainer"}>
+			<div className={"styles.inputLabel"}>
 				{props.label} = {props.value}
 				{props.symbol}
 			</div>
-			<div className={styles.refresh} onClick={() => props.onReset(defaultValue)}>
+			<div className={"styles.refresh"} onClick={() => props.onReset(defaultValue)}>
 				<TiRefresh />
 			</div>
 			<input

@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import Button from "../Button/Button";
 import { FaRandom } from "react-icons/fa";
 import { drawDivider } from "./script";
-import styles from "./Divider.module.scss";
 
 type Props = {
 	color: string;
@@ -32,8 +31,8 @@ const Divider = ({ color, divider: _divider }: Props) => {
 	}, [color, divider]);
 
 	return (
-		<div className={styles.mountainsCont}>
-			<div className={styles.mountainsBtn}>
+		<div className={"styles.mountainsCont"}>
+			<div className={"styles.mountainsBtn"}>
 				<Button icon={<FaRandom />} onClick={handleClick} bg="transparent" />
 			</div>
 			<canvas ref={canvas} />
