@@ -1,4 +1,4 @@
-import NavLink from "./NavLink/NavLink";
+import NavLink from "./NavLink";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { langCtx } from "../../../context/Lang";
@@ -7,41 +7,37 @@ const Navbar = () => {
 	const router = useRouter();
 	const languageCtx = useContext(langCtx);
 
+	let currentLang = languageCtx.lang.languageCode;
+
 	const buttons = [
-		{ href: "/", title: languageCtx.lang.nav.homeLink },
-		{ href: "/Conways", title: "Conway's" },
-		{ href: "/Pathfinding", title: "Pathfinding" },
-		{ href: "/Sorting", title: "Sorting" },
+		{ href: "/", title: languageCtx.lang.translations.nav.homeLink },
+		{ href: "/Conways", title: languageCtx.lang.translations.nav.conwaysLink },
+		{ href: "/Pathfinding", title: languageCtx.lang.translations.nav.pathfinding },
+		{ href: "/Sorting", title: languageCtx.lang.translations.nav.sorting },
+	];
+
+	const languages = [
+		{ code: "en", name: "English" },
+		{ code: "es", name: "Español" },
 	];
 
 	return (
-		<div className={"navCont"} style={router.pathname === "/" ? { position: "fixed" } : { position: "sticky" }}>
-			<div className={"navbar"}>
-				{buttons.map((b, i) => (
-					<NavLink
-						key={b.href}
-						href={b.href}
-						active={router.pathname === b.href}
-						title={b.title}
-						// color={`hsl(${(255 / buttons.length) * i}, 100%, 25%)`}
-					/>
-				))}
+		<div className={"sticky top-0 z-10 flex items-center justify-center gap-4 bg-zinc-800"}>
+			{buttons.map((b) => (
+				<NavLink key={b.href} href={b.href} active={router.pathname === b.href} title={b.title} />
+			))}
 
+			{languages.map((lang) => (
 				<button
+					key={lang.code}
+					className={`p-4 text-white ${currentLang === lang.code ? "bg-teal-700" : ""}`}
 					onClick={() => {
-						languageCtx.changeLang("es");
+						languageCtx.changeLang(lang.code);
 					}}
 				>
-					Español
+					{lang.name}
 				</button>
-				<button
-					onClick={() => {
-						languageCtx.changeLang("en");
-					}}
-				>
-					English
-				</button>
-			</div>
+			))}
 		</div>
 	);
 };

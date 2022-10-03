@@ -1,16 +1,26 @@
 import React, { createContext, ReactNode, useState } from "react";
 
-import en from "../translations/en.json";
-import es from "../translations/es.json";
+import en from "../translations/en";
+import es from "../translations/es";
 
 type Props = {
 	children: ReactNode;
 };
 
-export const langCtx = createContext({
-	lang: en,
-	changeLang: (val: "en" | "es") => {},
-});
+export interface iTranslation {
+	languageCode: string;
+	translations: {
+		nav: {
+			homeLink: string;
+			antColonyLink: string;
+			conwaysLink: string;
+			pathfinding: string;
+			sorting: string;
+		};
+	};
+}
+
+export const langCtx = createContext<{ lang: iTranslation; changeLang: Function }>({ lang: en, changeLang: () => {} });
 
 const LangProvider = ({ children }: Props) => {
 	const [lang, setLang] = useState<"en" | "es">("en");
@@ -19,7 +29,7 @@ const LangProvider = ({ children }: Props) => {
 		<langCtx.Provider
 			value={{
 				lang: lang === "en" ? en : es,
-				changeLang: (val) => setLang(val),
+				changeLang: (val: "en" | "es") => setLang(val),
 			}}
 		>
 			{children}
