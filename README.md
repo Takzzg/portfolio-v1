@@ -1,3 +1,12 @@
+---
+# ***THIS REPO IS OBSOLETE AND NO LONGER BEING MAINTAINED***
+# the new version can be found here: [portfolio-v2](https://github.com/Takzzg/portfolio-v2)
+---
+
+<details>
+  
+  <summary>See old README.md</summary>
+
 # About this project
 
 This is a personal web portfolio I've developed on my free time, to showcase my side projects and make them accesible on the internet. The current plan for this webpage consists on having the following sections:
@@ -83,3 +92,5 @@ Lastly, open [http://localhost:3000](http://localhost:3000) on your browser to s
 
 [^1]: Not implemented yet
 [^2]: Work in progress / Partially implemented
+
+</details>
